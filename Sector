@@ -1,0 +1,1745 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bloop — Screen Specifications · Onboarding</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root {
+  --nav-bg:    #1C2340;
+  --nav-text:  #C9CBE0;
+  --nav-muted: #6B6F8A;
+  --nav-label: #4A5078;
+  --nav-active:#FFFFFF;
+  --nav-hover: rgba(255,255,255,0.07);
+  --nav-accent:#E07B42;
+
+  --cream:     #F5F0E8;
+  --cream-2:   #EDE8DC;
+  --ink:       #1C2340;
+  --ink-2:     #3A3E56;
+  --muted:     #7A7F99;
+  --rule:      #DDD8CC;
+
+  --accent:    #1F6E5A;
+  --accent-soft:#D8EAE4;
+  --accent-2:  #E07B42;
+
+  --phone-w: 260px;
+  --phone-h: 520px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  height: 100vh;
+  overflow: hidden;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  background: var(--cream);
+  color: var(--ink);
+}
+
+/* ─── SHELL ──────────────────────────────────────────────────────────────── */
+.shell {
+  display: grid;
+  grid-template-columns: 230px 1fr 360px;
+  height: 100vh;
+  width: 100vw;
+}
+
+/* ─── LEFT NAV ───────────────────────────────────────────────────────────── */
+.nav {
+  background: var(--nav-bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 32px 0 48px;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+}
+.nav::-webkit-scrollbar { width: 4px; }
+.nav::-webkit-scrollbar-track { background: transparent; }
+.nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 2px; }
+
+.nav-logo {
+  padding: 0 24px 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 28px;
+}
+.nav-logo .wordmark {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+.nav-logo .wordmark span {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: var(--nav-accent);
+  border-radius: 50%;
+  margin-left: 1px;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+.nav-logo .tagline {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nav-muted);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.nav-section {
+  padding: 0 24px;
+  margin-bottom: 28px;
+}
+.nav-section-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--nav-label);
+  margin-bottom: 10px;
+  padding-left: 2px;
+}
+.nav-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 6px 10px;
+  margin: 0 -10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s;
+  text-decoration: none;
+}
+.nav-item:hover { background: var(--nav-hover); }
+.nav-item.active { background: rgba(255,255,255,0.1); }
+.nav-item .num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--nav-muted);
+  flex-shrink: 0;
+  width: 18px;
+  text-align: right;
+}
+.nav-item.active .num { color: var(--nav-accent); }
+.nav-item .label {
+  font-size: 12.5px;
+  color: var(--nav-text);
+  line-height: 1.4;
+  font-weight: 400;
+}
+.nav-item.active .label { color: var(--nav-active); font-weight: 500; }
+
+/* ─── MIDDLE — CONTENT ───────────────────────────────────────────────────── */
+.content {
+  overflow-y: auto;
+  padding: 64px 64px 80px 72px;
+  background: var(--cream);
+  border-right: 1px solid var(--rule);
+}
+
+.screen-tag {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.screen-tag::after {
+  content: '';
+  display: block;
+  height: 1px;
+  width: 40px;
+  background: var(--rule);
+}
+
+.screen-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.screen-title {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  line-height: 1.15;
+  margin-bottom: 22px;
+}
+
+.screen-oneliner {
+  font-size: 17px;
+  font-weight: 300;
+  color: var(--ink-2);
+  line-height: 1.55;
+  margin-bottom: 40px;
+  max-width: 480px;
+}
+
+.section-label {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 14px;
+  margin-top: 36px;
+}
+
+.function-block {
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  padding: 20px 22px;
+  margin-bottom: 32px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+  line-height: 1.6;
+}
+
+.elements-list {
+  list-style: none;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.elements-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.5;
+}
+.elements-list li:first-child { border-top: 1px solid var(--rule); }
+.elements-list .el-bullet {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.copy-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 32px;
+  font-size: 12.5px;
+}
+.copy-table thead th {
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  background: var(--cream-2);
+  border: 1px solid var(--rule);
+}
+.copy-table tbody td {
+  padding: 10px 14px;
+  border: 1px solid var(--rule);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.copy-table tbody tr:nth-child(even) td { background: rgba(0,0,0,0.015); }
+.copy-table .el-name { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.copy-table .copy-text { color: var(--ink-2); font-style: italic; }
+
+.note-block {
+  border-left: 3px solid var(--accent);
+  padding: 14px 18px;
+  background: var(--accent-soft);
+  border-radius: 0 8px 8px 0;
+  font-size: 13px;
+  color: var(--ink-2);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+.note-block strong { color: var(--ink); font-weight: 600; }
+
+/* ─── RIGHT — PHONE VIEWPORT ─────────────────────────────────────────────── */
+.viewport {
+  background: var(--cream-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 30px;
+  position: relative;
+  overflow: hidden;
+}
+.viewport::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 10%, rgba(31,110,90,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(224,123,66,0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.screen-label-top {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+/* Phone bezel */
+.phone {
+  width: var(--phone-w);
+  height: var(--phone-h);
+  background: #111;
+  border-radius: 36px;
+  padding: 10px;
+  box-shadow:
+    0 0 0 1px #333,
+    0 40px 80px -20px rgba(0,0,0,0.5),
+    0 16px 32px -8px rgba(0,0,0,0.3);
+  position: relative;
+  flex-shrink: 0;
+}
+/* notch */
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 24px;
+  background: #111;
+  border-radius: 0 0 14px 14px;
+  z-index: 10;
+}
+/* home bar */
+.phone::after {
+  content: '';
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 2px;
+  z-index: 10;
+}
+
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  background: #F5F2E9;
+}
+
+/* Status bar inside phone */
+.status-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 36px;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 18px 6px;
+  justify-content: space-between;
+  z-index: 5;
+}
+.status-time {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: 'DM Sans', sans-serif;
+}
+.status-icons {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+}
+.status-icons .si {
+  width: 14px;
+  height: 8px;
+  background: currentColor;
+  border-radius: 1px;
+  opacity: 0.8;
+}
+.status-icons .si.wifi { clip-path: polygon(50% 0%, 100% 40%, 80% 40%, 50% 100%, 20% 40%, 0% 40%); height: 10px; }
+.status-icons .si.bat { width: 18px; height: 9px; border: 1.5px solid currentColor; border-radius: 2px; background: transparent; position: relative; }
+.status-icons .si.bat::after { content:''; position:absolute; right:-4px; top:2px; width:3px; height:5px; background:currentColor; border-radius:0 1px 1px 0; }
+.status-icons .si.bat::before { content:''; position:absolute; left:1px; top:1px; bottom:1px; width:70%; background:currentColor; border-radius:1px; }
+
+/* Wireframe screen contents — each screen ID is a <div class="wf wf-1 active"> */
+.wf {
+  position: absolute;
+  inset: 0;
+  display: none;
+  flex-direction: column;
+  font-family: 'DM Sans', sans-serif;
+}
+.wf.active { display: flex; }
+
+/* ── shared phone-screen components ─────────────────────────────────────── */
+.wf-status-dark .status-bar { color: #fff; }
+.wf-status-light .status-bar { color: #111; }
+
+/* bottom nav bar for phone */
+.phone-nav {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 52px;
+  background: #fff;
+  border-top: 1px solid #E8E4DA;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+  padding-bottom: 6px;
+}
+.phone-nav .pn-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 8px;
+  color: #999;
+}
+.phone-nav .pn-item.active { color: #1F6E5A; }
+.pn-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* ── SCREEN 1: Splash ─────────────────────────────────────────────────────── */
+.wf-1 {
+  background: #1F6E5A;
+  align-items: center;
+  justify-content: center;
+}
+.wf-1 .splash-word {
+  font-family: 'Fraunces', serif;
+  font-size: 52px;
+  font-weight: 400;
+  color: #fff;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+.wf-1 .splash-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  margin-left: 2px;
+  vertical-align: middle;
+  position: relative;
+  top: -4px;
+  animation: breathe 2.4s ease-in-out infinite;
+}
+@keyframes breathe {
+  0%,100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.025); opacity: 0.9; }
+}
+
+/* ── SCREEN 2: Welcome carousel ──────────────────────────────────────────── */
+.wf-2 {
+  background: #F5F2E9;
+}
+.wf-2 .status-bar { color: #111; }
+.wf-2 .welcome-hero {
+  flex: 1;
+  background: linear-gradient(155deg, #1C2340 0%, #1F6E5A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+.wf-2 .hero-card {
+  width: 110px;
+  height: 68px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  color: #1F6E5A;
+  font-weight: 400;
+  transform: rotate(-5deg);
+  letter-spacing: -0.02em;
+}
+.wf-2 .hero-card-2 {
+  width: 90px;
+  height: 56px;
+  background: #1F6E5A;
+  border-radius: 8px;
+  position: absolute;
+  top: 50%;
+  left: 55%;
+  transform: rotate(8deg) translateY(-60%);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+.wf-2 .welcome-copy {
+  padding: 24px 22px 16px;
+}
+.wf-2 .welcome-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #1C2340;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.wf-2 .welcome-body {
+  font-size: 11px;
+  color: #6B6F8A;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+.wf-2 .dots {
+  display: flex; gap: 5px; margin-bottom: 20px;
+}
+.wf-2 .dot {
+  width: 20px; height: 3px;
+  background: #1F6E5A; border-radius: 2px;
+}
+.wf-2 .dot.inactive {
+  width: 6px; background: #C9C3B3;
+}
+.wf-2 .btn-primary {
+  width: 100%; height: 40px;
+  background: #1F6E5A;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 600; color: #fff;
+  letter-spacing: -0.01em;
+}
+.wf-2 .btn-ghost {
+  width: 100%; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #6B6F8A; margin-top: 8px;
+}
+
+/* ── SCREEN 3: Sign up ───────────────────────────────────────────────────── */
+.wf-3 { background: #F5F2E9; flex-direction: column; padding-top: 36px; }
+.wf-3 .status-bar { color: #111; }
+.wf-3 .su-logo {
+  text-align: center;
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
+  color: #1F6E5A;
+  margin-bottom: 32px;
+  letter-spacing: -0.02em;
+  margin-top: 10px;
+}
+.wf-3 .su-title {
+  font-family: 'Fraunces', serif;
+  font-size: 21px; font-weight: 400;
+  color: #1C2340; margin: 0 22px 6px;
+  letter-spacing: -0.02em;
+}
+.wf-3 .su-sub {
+  font-size: 11px; color: #7A7F99;
+  margin: 0 22px 24px; line-height: 1.4;
+}
+.wf-3 .tab-row {
+  display: flex; margin: 0 22px 20px;
+  background: #EDE8DC; border-radius: 8px;
+  padding: 3px;
+}
+.wf-3 .tab {
+  flex: 1; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: #7A7F99; border-radius: 6px;
+  font-weight: 500;
+}
+.wf-3 .tab.active { background: #fff; color: #1C2340; box-shadow: 0 1px 4px rgba(0,0,0,0.1); }
+.wf-field {
+  margin: 0 22px 12px;
+  background: #fff;
+  border: 1.5px solid #DDD8CC;
+  border-radius: 9px;
+  padding: 10px 14px;
+}
+.wf-field.focused { border-color: #1F6E5A; }
+.wf-field-label { font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #999; font-weight: 600; }
+.wf-field-value { font-size: 13px; color: #1C2340; margin-top: 2px; }
+.wf-field-value.placeholder { color: #C9C3B3; }
+.wf-3 .su-cta {
+  margin: 8px 22px 0;
+  background: #1F6E5A;
+  height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+.wf-3 .su-terms {
+  font-size: 9px; color: #B0ABAA;
+  margin: 12px 22px 0; text-align: center; line-height: 1.4;
+}
+
+/* ── SCREEN 4: OTP ───────────────────────────────────────────────────────── */
+.wf-4 { background: #F5F2E9; padding-top: 36px; flex-direction: column; }
+.wf-4 .status-bar { color: #111; }
+.wf-4 .back-row {
+  display: flex; align-items: center; padding: 6px 18px 20px;
+}
+.wf-4 .back-arr {
+  width: 28px; height: 28px;
+  background: #EDE8DC; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+.wf-4 .back-arr::before {
+  content: '←'; font-size: 12px; color: #1C2340;
+}
+.wf-4 .otp-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 400;
+  color: #1C2340; margin: 0 22px 6px;
+  letter-spacing: -0.02em;
+}
+.wf-4 .otp-sub {
+  font-size: 11px; color: #7A7F99; margin: 0 22px 28px; line-height: 1.4;
+}
+.otp-boxes {
+  display: flex; gap: 8px; margin: 0 22px 28px;
+}
+.otp-box {
+  flex: 1; height: 48px;
+  background: #fff; border: 1.5px solid #DDD8CC; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; font-weight: 500; color: #1C2340;
+  font-family: 'JetBrains Mono', monospace;
+}
+.otp-box:first-child { border-color: #1F6E5A; }
+.otp-box.filled { color: #1F6E5A; }
+.wf-4 .otp-resend {
+  text-align: center; font-size: 11px; color: #1F6E5A; margin-bottom: 20px;
+}
+.wf-4 .otp-cta {
+  margin: 0 22px;
+  background: #1F6E5A; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ── SCREEN 5: Name ──────────────────────────────────────────────────────── */
+.wf-5 { background: #F5F2E9; padding-top: 36px; flex-direction: column; }
+.wf-5 .status-bar { color: #111; }
+.wf-5 .progress {
+  height: 3px; background: #EDE8DC; margin: 8px 22px 28px;
+  border-radius: 2px; overflow: hidden;
+}
+.wf-5 .progress-fill { height: 100%; width: 20%; background: #1F6E5A; border-radius: 2px; }
+.wf-5 .step-num {
+  font-size: 10px; color: #B0ABAA; margin: 0 22px 8px;
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em;
+}
+.wf-5 .name-title {
+  font-family: 'Fraunces', serif;
+  font-size: 22px; font-weight: 400;
+  color: #1C2340; margin: 0 22px 6px; letter-spacing: -0.02em;
+}
+.wf-5 .name-sub {
+  font-size: 11px; color: #7A7F99; margin: 0 22px 24px; line-height: 1.4;
+}
+.wf-5 .name-cta {
+  margin: 16px 22px 0;
+  background: #1F6E5A; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ── SCREEN 6: Photo ─────────────────────────────────────────────────────── */
+.wf-6 { background: #F5F2E9; padding-top: 36px; flex-direction: column; }
+.wf-6 .status-bar { color: #111; }
+.wf-6 .progress { height: 3px; background: #EDE8DC; margin: 8px 22px 28px; border-radius: 2px; overflow: hidden; }
+.wf-6 .progress-fill { height: 100%; width: 40%; background: #1F6E5A; border-radius: 2px; }
+.wf-6 .step-num { font-size: 10px; color: #B0ABAA; margin: 0 22px 8px; font-family: 'JetBrains Mono', monospace; }
+.wf-6 .photo-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; color: #1C2340; margin: 0 22px 6px; letter-spacing: -0.02em; }
+.wf-6 .photo-sub { font-size: 11px; color: #7A7F99; margin: 0 22px 28px; line-height: 1.4; }
+.wf-6 .avatar-zone {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  margin-bottom: 20px;
+}
+.wf-6 .avatar-circle {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  border: 2px dashed #C9C3B3;
+  display: flex; align-items: center; justify-content: center;
+  background: #EDE8DC;
+  position: relative;
+}
+.wf-6 .avatar-circle::after {
+  content: '+'; font-size: 28px; color: #C9C3B3;
+}
+.wf-6 .avatar-caption { font-size: 10px; color: #B0ABAA; text-align: center; }
+.wf-6 .photo-options {
+  display: flex; gap: 10px; margin: 0 22px;
+}
+.wf-6 .opt-btn {
+  flex: 1; height: 38px; border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500;
+}
+.wf-6 .opt-primary { background: #1F6E5A; color: #fff; }
+.wf-6 .opt-ghost { background: #EDE8DC; color: #3A3E56; }
+.wf-6 .photo-skip {
+  margin-top: 12px; text-align: center; font-size: 10px; color: #B0ABAA;
+}
+
+/* ── SCREEN 7: Permissions ───────────────────────────────────────────────── */
+.wf-7 { background: #F5F2E9; padding-top: 36px; flex-direction: column; }
+.wf-7 .status-bar { color: #111; }
+.wf-7 .progress { height: 3px; background: #EDE8DC; margin: 8px 22px 28px; border-radius: 2px; overflow: hidden; }
+.wf-7 .progress-fill { height: 100%; width: 60%; background: #1F6E5A; border-radius: 2px; }
+.wf-7 .step-num { font-size: 10px; color: #B0ABAA; margin: 0 22px 8px; font-family: 'JetBrains Mono', monospace; }
+.wf-7 .perm-title { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 400; color: #1C2340; margin: 0 22px 6px; letter-spacing: -0.02em; }
+.wf-7 .perm-sub { font-size: 11px; color: #7A7F99; margin: 0 22px 20px; line-height: 1.4; }
+.perm-row {
+  display: flex; align-items: center; gap: 14px;
+  margin: 0 22px; padding: 11px 0;
+  border-bottom: 1px solid #E8E3D8;
+}
+.perm-icon {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: #1F6E5A; display: flex;
+  align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 16px;
+}
+.perm-text { flex: 1; }
+.perm-name { font-size: 12px; font-weight: 500; color: #1C2340; }
+.perm-why { font-size: 10px; color: #7A7F99; margin-top: 1px; line-height: 1.3; }
+.perm-toggle {
+  width: 34px; height: 20px; border-radius: 10px;
+  background: #1F6E5A; position: relative; flex-shrink: 0;
+}
+.perm-toggle::after {
+  content: ''; position: absolute;
+  top: 2px; right: 2px;
+  width: 16px; height: 16px;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+.perm-toggle.off { background: #DDD8CC; }
+.perm-toggle.off::after { right: auto; left: 2px; }
+.wf-7 .perm-cta {
+  margin: 16px 22px 0;
+  background: #1F6E5A; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ── SCREEN 8: NFC pairing ───────────────────────────────────────────────── */
+.wf-8 { background: #1C2340; align-items: center; justify-content: center; flex-direction: column; }
+.wf-8 .status-bar { color: rgba(255,255,255,0.6); }
+.wf-8 .nfc-ring {
+  width: 120px; height: 120px; border-radius: 50%;
+  border: 2px solid rgba(31,110,90,0.4);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; margin-bottom: 28px;
+  animation: nfcpulse 2s ease-in-out infinite;
+}
+.wf-8 .nfc-ring::before {
+  content: ''; position: absolute;
+  inset: -16px; border-radius: 50%;
+  border: 1.5px solid rgba(31,110,90,0.2);
+  animation: nfcpulse 2s ease-in-out infinite 0.3s;
+}
+.wf-8 .nfc-ring::after {
+  content: ''; position: absolute;
+  inset: -32px; border-radius: 50%;
+  border: 1px solid rgba(31,110,90,0.1);
+  animation: nfcpulse 2s ease-in-out infinite 0.6s;
+}
+@keyframes nfcpulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.04); }
+}
+.wf-8 .nfc-icon {
+  width: 52px; height: 52px;
+  background: #1F6E5A; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.wf-8 .nfc-title {
+  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400;
+  color: #fff; text-align: center; margin: 0 28px 8px; letter-spacing: -0.02em;
+}
+.wf-8 .nfc-sub {
+  font-size: 11px; color: rgba(255,255,255,0.45); text-align: center;
+  margin: 0 28px 28px; line-height: 1.5;
+}
+.wf-8 .nfc-card-hint {
+  width: 110px; height: 68px;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 28px;
+}
+.wf-8 .nfc-skip {
+  font-size: 10px; color: rgba(255,255,255,0.3);
+}
+
+/* ── SCREEN 9: Success ───────────────────────────────────────────────────── */
+.wf-9 { background: #F5F2E9; align-items: center; justify-content: center; flex-direction: column; }
+.wf-9 .status-bar { color: #111; }
+.wf-9 .success-ring {
+  width: 90px; height: 90px; border-radius: 50%;
+  background: #D8EAE4; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.wf-9 .check { font-size: 38px; color: #1F6E5A; line-height: 1; }
+.wf-9 .success-title {
+  font-family: 'Fraunces', serif; font-size: 24px; font-weight: 400;
+  color: #1C2340; text-align: center; margin: 0 28px 10px; letter-spacing: -0.02em;
+}
+.wf-9 .success-sub {
+  font-size: 12px; color: #7A7F99; text-align: center;
+  margin: 0 32px 32px; line-height: 1.5;
+}
+.wf-9 .card-preview {
+  width: 160px; height: 96px; border-radius: 14px;
+  background: linear-gradient(135deg, #1C2340, #1F6E5A);
+  box-shadow: 0 14px 36px rgba(31,110,90,0.25);
+  margin-bottom: 32px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Fraunces', serif; font-size: 18px;
+  color: rgba(255,255,255,0.8); letter-spacing: -0.02em;
+  transform: rotate(-3deg);
+}
+.wf-9 .success-cta {
+  width: calc(100% - 44px);
+  background: #1F6E5A; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ── SCREEN 10: First card setup ─────────────────────────────────────────── */
+.wf-10 { background: #F5F2E9; padding-top: 36px; flex-direction: column; }
+.wf-10 .status-bar { color: #111; }
+.wf-10 .progress { height: 3px; background: #EDE8DC; margin: 8px 22px 20px; border-radius: 2px; overflow: hidden; }
+.wf-10 .progress-fill { height: 100%; width: 100%; background: #1F6E5A; border-radius: 2px; }
+.wf-10 .step-num { font-size: 10px; color: #B0ABAA; margin: 0 22px 6px; font-family: 'JetBrains Mono', monospace; }
+.wf-10 .card-pick-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 400; color: #1C2340; margin: 0 22px 4px; letter-spacing: -0.02em; }
+.wf-10 .card-pick-sub { font-size: 10px; color: #7A7F99; margin: 0 22px 16px; }
+.card-option {
+  margin: 0 22px 10px;
+  border: 1.5px solid #DDD8CC; border-radius: 12px;
+  overflow: hidden; cursor: pointer;
+  transition: border-color 0.15s;
+}
+.card-option.selected { border-color: #1F6E5A; }
+.card-option-visual {
+  height: 72px; display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.card-mini {
+  width: 100px; height: 60px; border-radius: 8px;
+}
+.card-mini-a { background: linear-gradient(135deg, #1C2340, #1F6E5A); }
+.card-mini-b { background: linear-gradient(135deg, #2B2B2B, #444); }
+.card-mini-c { background: linear-gradient(135deg, #E07B42, #C4512E); }
+.card-option-info {
+  padding: 8px 12px; background: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.card-option-name { font-size: 11px; font-weight: 600; color: #1C2340; }
+.card-option-price { font-size: 10px; color: #7A7F99; }
+.card-option-badge {
+  font-size: 8px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 2px 6px; border-radius: 4px;
+}
+.badge-free { background: #D8EAE4; color: #1F6E5A; }
+.badge-premium { background: #F0E8DE; color: #E07B42; }
+.wf-10 .card-cta {
+  margin: 8px 22px 0;
+  background: #1F6E5A; height: 42px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 600; color: #fff;
+}
+
+/* ─── ACTIVE SCREEN INDICATOR ────────────────────────────────────────────── */
+.screen-label-bottom {
+  margin-top: 20px;
+  display: flex; gap: 6px; align-items: center; justify-content: center;
+}
+.scr-pip { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); cursor: pointer; transition: all 0.2s; }
+.scr-pip.active { background: var(--accent); width: 20px; border-radius: 3px; }
+
+/* ─── SCROLLBAR for middle ───────────────────────────────────────────────── */
+.content::-webkit-scrollbar { width: 6px; }
+.content::-webkit-scrollbar-track { background: transparent; }
+.content::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 3px; }
+
+/* ─── SELECTED SCREEN PILL ───────────────────────────────────────────────── */
+.wf-indicator {
+  position: absolute; top: 20px; right: 20px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 9px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  padding: 4px 10px; border-radius: 20px;
+  opacity: 0.5;
+}
+</style>
+</head>
+
+<body>
+<div class="shell">
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- LEFT NAV -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="wordmark">bloop<span></span></div>
+    <div class="tagline">Screen Specifications v0.1</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-label">Onboarding &amp; Account Creation</div>
+    <a class="nav-item active" onclick="showScreen(1)" href="#">
+      <span class="num screen-number">01</span>
+      <span class="label">Splash</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(2)" href="#">
+      <span class="num">02</span>
+      <span class="label">Welcome / value prop carousel</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(3)" href="#">
+      <span class="num">03</span>
+      <span class="label">Sign up — phone or email</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(4)" href="#">
+      <span class="num">04</span>
+      <span class="label">OTP verification</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(5)" href="#">
+      <span class="num">05</span>
+      <span class="label">Name capture</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(6)" href="#">
+      <span class="num">06</span>
+      <span class="label">Profile photo capture</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(7)" href="#">
+      <span class="num">07</span>
+      <span class="label">Permissions primer</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(8)" href="#">
+      <span class="num">08</span>
+      <span class="label">Activate your card — NFC pairing</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(9)" href="#">
+      <span class="num">09</span>
+      <span class="label">Activation success</span>
+    </a>
+    <a class="nav-item" onclick="showScreen(10)" href="#">
+      <span class="num">10</span>
+      <span class="label">First card setup</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- MIDDLE — CONTENT -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<main class="content" id="content-area">
+
+  <!-- SCREEN 1 ─────────────────────────────────────────────────────────── -->
+  <div id="content-1" class="screen-content">
+    <div class="screen-tag"><span class="screen-number">01 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Splash</h1>
+    <p class="screen-oneliner">The brand says hello before the product does anything. A holding state — not a loader.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Cold start state. Loads the user session, fetches card data, and routes to the onboarding flow or home. Visible for ~600ms on a warm start, up to 2 seconds on cold. No spinner. No progress bar. The wordmark is the animation.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Full-bleed background in Bloop primary — deep verdant green (#1F6E5A).</li>
+      <li><span class="el-bullet"></span>Centred Bloop wordmark in white. The two 'o' characters are optically oversized — a quiet visual reference to a tap. Custom-cut letterform.</li>
+      <li><span class="el-bullet"></span>Wordmark breathing animation — scale 1.0 → 1.025 → 1.0 on a 2.4s ease-in-out loop.</li>
+      <li><span class="el-bullet"></span>Status bar in light-content style. Nothing else competes for attention on this screen.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Wordmark</td><td class="copy-text">bloop</td></tr>
+        <tr><td class="el-name">Loading state</td><td class="copy-text">(no copy — animation only)</td></tr>
+        <tr><td class="el-name">Error fallback (3s+ overrun)</td><td class="copy-text">Hmm. Give us one more second.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Motion notes</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Wordmark fades in over 200ms on launch (opacity 0 → 1, ease-out).</li>
+      <li><span class="el-bullet"></span>Breathing scale loop runs while session loads.</li>
+      <li><span class="el-bullet"></span>On route: wordmark scales up to 1.15 and fades out as the next screen slides in — 300ms ease-out.</li>
+    </ul>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>This screen does not have to earn its place through utility.</strong> Every other screen in the app justifies its design with function. The splash is the only moment that is unapologetically a brand gesture. Resist the urge to add sub-copy, a spinner, or a progress indicator. The restraint is the statement.
+    </div>
+  </div>
+
+  <!-- SCREEN 2 ─────────────────────────────────────────────────────────── -->
+  <div id="content-2" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">02 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Welcome / Value prop carousel</h1>
+    <p class="screen-oneliner">Three slides. Eight seconds. The user either gets it — or they don't need to.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Shown once, immediately after the splash, before any account creation. A horizontal carousel of three screens, each making one argument for why Bloop exists. Dismissible from any slide. Swipeable. Auto-advances after 5s per slide if idle.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Top 55% — editorial full-bleed visual. Slide 1: two Bloop cards mid-exchange. Slide 2: phone screen with a Bloop profile. Slide 3: a tap notification arriving. All commissioned, not stock.</li>
+      <li><span class="el-bullet"></span>Bottom 45% — white card content area with rounded top corners.</li>
+      <li><span class="el-bullet"></span>Slide headline (display serif, 22pt), body (13pt, muted), progress dots, primary CTA, ghost secondary.</li>
+      <li><span class="el-bullet"></span>Progress dots: active dot is a pill (20px wide), inactive dots are circles (6px). Animates between slides.</li>
+      <li><span class="el-bullet"></span>Skip link top-right — always visible, exits to sign up.</li>
+    </ul>
+
+    <div class="section-label">UX copy — Slide 1</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline</td><td class="copy-text">One tap. You exist on their phone now.</td></tr>
+        <tr><td class="el-name">Body</td><td class="copy-text">NFC contact card that shares everything — or only what you want.</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Next</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">UX copy — Slide 2</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Different place, different you.</td></tr>
+        <tr><td class="el-name">Body</td><td class="copy-text">Switch profiles for the gallery, the office, the party. Same chip, three cards.</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Next</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">UX copy — Slide 3</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Remember everyone you actually meet.</td></tr>
+        <tr><td class="el-name">Body</td><td class="copy-text">Bloop logs every tap — who, when, where — so you don't have to.</td></tr>
+        <tr><td class="el-name">CTA (final slide)</td><td class="copy-text">Get started</td></tr>
+        <tr><td class="el-name">Ghost link</td><td class="copy-text">Sign in instead</td></tr>
+        <tr><td class="el-name">Skip link (persistent)</td><td class="copy-text">Skip</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>Three slides maximum, one argument each.</strong> Most onboarding carousels try to say everything. Bloop says three things and stops. The editorial visuals do more work than the copy — if the image doesn't make someone want to keep reading, the copy doesn't get a chance. Commission, don't stock.
+    </div>
+  </div>
+
+  <!-- SCREEN 3 ─────────────────────────────────────────────────────────── -->
+  <div id="content-3" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">03 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Sign up — phone or email</h1>
+    <p class="screen-oneliner">The smallest possible commitment. One field. One tap.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Entry point for account creation. Supports phone (default) and email as toggle options. Phone sends an OTP via SMS; email sends a magic link. No password ever created. Either method routes to OTP verification (Screen 04). Apple Sign In and Google Sign In as tertiary options below the fold.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Small Bloop wordmark centred at top — confirms brand context without the splash drama.</li>
+      <li><span class="el-bullet"></span>Screen headline + one-line subhead.</li>
+      <li><span class="el-bullet"></span>Segmented control: Phone (default active) / Email.</li>
+      <li><span class="el-bullet"></span>Phone state: country code picker + phone number field. Auto-formats as user types.</li>
+      <li><span class="el-bullet"></span>Email state: single email field with format validation.</li>
+      <li><span class="el-bullet"></span>Primary CTA — disabled until field has valid input.</li>
+      <li><span class="el-bullet"></span>Terms caption below CTA — 9pt, muted. Not blocking, not modal. Just present.</li>
+      <li><span class="el-bullet"></span>Hairline divider + 'or' separator + Apple / Google SSO options below.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Let's get you a bloop</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">Takes about two minutes.</td></tr>
+        <tr><td class="el-name">Tab — phone</td><td class="copy-text">Phone</td></tr>
+        <tr><td class="el-name">Tab — email</td><td class="copy-text">Email</td></tr>
+        <tr><td class="el-name">Phone field label</td><td class="copy-text">Mobile number</td></tr>
+        <tr><td class="el-name">Phone placeholder</td><td class="copy-text">Your number</td></tr>
+        <tr><td class="el-name">Email field label</td><td class="copy-text">Email address</td></tr>
+        <tr><td class="el-name">Email placeholder</td><td class="copy-text">Your email</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Send the code</td></tr>
+        <tr><td class="el-name">Terms caption</td><td class="copy-text">By continuing you agree to our Terms and Privacy Policy.</td></tr>
+        <tr><td class="el-name">SSO divider</td><td class="copy-text">or</td></tr>
+        <tr><td class="el-name">Apple SSO</td><td class="copy-text">Continue with Apple</td></tr>
+        <tr><td class="el-name">Google SSO</td><td class="copy-text">Continue with Google</td></tr>
+        <tr><td class="el-name">Sign-in redirect</td><td class="copy-text">Already have an account? Sign in</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"Let's get you a bloop"</strong> — using 'bloop' as the object (a noun) rather than a product name establishes the language from the very first interaction. Users learn the vocabulary before they've even signed up. The CTA "Send the code" is a verb that explains the action, not a generic "Continue."
+    </div>
+  </div>
+
+  <!-- SCREEN 4 ─────────────────────────────────────────────────────────── -->
+  <div id="content-4" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">04 / 10</span> Onboarding</div>
+    <h1 class="screen-title">OTP verification</h1>
+    <p class="screen-oneliner">Six boxes. One moment of trust between the user and the number they gave us.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Receives the 6-digit OTP sent to the user's phone or a magic link click for email. Auto-submits when all six digits are entered — no manual "verify" tap required. Shows a resend option after 30 seconds. Incorrect code shakes the boxes and clears them.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Back arrow (returns to sign-up screen, phone/email preserved).</li>
+      <li><span class="el-bullet"></span>Headline, personalised with the last 4 digits of the phone or the email domain.</li>
+      <li><span class="el-bullet"></span>6 individual digit input boxes. Active box has accent-green border. Filled boxes show green digit. Cursor is hidden — digit jumps to next box automatically.</li>
+      <li><span class="el-bullet"></span>Resend link — disabled for first 30 seconds with countdown: "Resend in 28s".</li>
+      <li><span class="el-bullet"></span>Primary CTA — auto-triggers on last digit, but also manually tappable.</li>
+      <li><span class="el-bullet"></span>Error state: boxes shake (200ms wobble animation), border turns red briefly, all clear.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline (phone)</td><td class="copy-text">Check your messages</td></tr>
+        <tr><td class="el-name">Subhead (phone)</td><td class="copy-text">We sent a 6-digit code to +91 •••• 8907</td></tr>
+        <tr><td class="el-name">Headline (email)</td><td class="copy-text">Check your inbox</td></tr>
+        <tr><td class="el-name">Subhead (email)</td><td class="copy-text">We sent a sign-in link to joel@•••.com</td></tr>
+        <tr><td class="el-name">Resend (counting)</td><td class="copy-text">Resend in 28s</td></tr>
+        <tr><td class="el-name">Resend (ready)</td><td class="copy-text">Didn't get it? Resend</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Verify</td></tr>
+        <tr><td class="el-name">Error toast</td><td class="copy-text">That code's not right. Try again.</td></tr>
+        <tr><td class="el-name">Expired toast</td><td class="copy-text">Code expired. We'll send a new one.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"Check your messages"</strong> rather than "Enter verification code" — the former is what a friend would say, the latter is what a bank would say. The error copy "That code's not right" is equally direct without being clinical. Every micro-copy decision at this stage builds or erodes the voice.
+    </div>
+  </div>
+
+  <!-- SCREEN 5 ─────────────────────────────────────────────────────────── -->
+  <div id="content-5" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">05 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Name capture</h1>
+    <p class="screen-oneliner">Step 1 of 4 in the setup flow. The first time Bloop addresses the user by name.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Collects the user's display name. This populates their default profile (not an account username — users can choose a different name per profile later). Two fields: first name (required) and last name (optional). Progress bar reflects setup stage (1 of 4 = 25%).
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Thin accent progress bar across top — 25% filled. Always visible during the 4-step setup flow.</li>
+      <li><span class="el-bullet"></span>Step counter in mono — "Step 1 of 4".</li>
+      <li><span class="el-bullet"></span>Headline (serif, 22pt) + subhead (body, 11pt, muted).</li>
+      <li><span class="el-bullet"></span>First name field — autofocused on load, keyboard opens immediately.</li>
+      <li><span class="el-bullet"></span>Last name field — optional label shown inline.</li>
+      <li><span class="el-bullet"></span>Helper text below last name — explains why last name is optional.</li>
+      <li><span class="el-bullet"></span>Primary CTA — enabled as soon as first name has any character.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Step counter</td><td class="copy-text">Step 1 of 4</td></tr>
+        <tr><td class="el-name">Headline</td><td class="copy-text">What do people call you?</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">This is your default name on your card. You can change it per profile.</td></tr>
+        <tr><td class="el-name">First name label</td><td class="copy-text">First name</td></tr>
+        <tr><td class="el-name">First name placeholder</td><td class="copy-text">Joey</td></tr>
+        <tr><td class="el-name">Last name label</td><td class="copy-text">Last name  ·  Optional</td></tr>
+        <tr><td class="el-name">Last name helper</td><td class="copy-text">Some people share first name only. Up to you.</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">That's my name</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"What do people call you?"</strong> over "Enter your name." The phrasing treats the user as someone whose identity might be more nuanced than a form — which it is. The CTA "That's my name" is playful and confirms the action without sounding like a legal declaration. Last name being optional is a genuine privacy choice, not a courtesy.
+    </div>
+  </div>
+
+  <!-- SCREEN 6 ─────────────────────────────────────────────────────────── -->
+  <div id="content-6" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">06 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Profile photo capture</h1>
+    <p class="screen-oneliner">Step 2 of 4. The photo that goes on the card — the first impression at 75px.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Collects the user's card photo. Separate from any social or ID photo. Two options: take photo (camera) or choose from library. Includes in-app crop/adjust step after selection. Photo is not shared until the user publishes their card. Step is skippable — a placeholder avatar is used until a photo is added.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Progress bar — 50% filled.</li>
+      <li><span class="el-bullet"></span>Step counter, headline, subhead.</li>
+      <li><span class="el-bullet"></span>Large avatar circle (88px, dashed border) as the drop target — centred, tap to open camera/library.</li>
+      <li><span class="el-bullet"></span>Caption below avatar explaining visibility scope.</li>
+      <li><span class="el-bullet"></span>Two option buttons below: "Take a photo" (primary, accent fill) + "Choose from library" (secondary, neutral fill).</li>
+      <li><span class="el-bullet"></span>"Skip for now" as a small link below the buttons — not a button weight.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Step counter</td><td class="copy-text">Step 2 of 4</td></tr>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Put a face to the tap</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">Contacts with photos get opened. Ones without get forgotten.</td></tr>
+        <tr><td class="el-name">Avatar caption</td><td class="copy-text">Only shared when someone taps your card</td></tr>
+        <tr><td class="el-name">CTA — camera</td><td class="copy-text">Take a photo</td></tr>
+        <tr><td class="el-name">CTA — library</td><td class="copy-text">Choose from library</td></tr>
+        <tr><td class="el-name">Skip link</td><td class="copy-text">I'll add one later</td></tr>
+        <tr><td class="el-name">Post-crop CTA</td><td class="copy-text">Use this photo</td></tr>
+        <tr><td class="el-name">Retake link</td><td class="copy-text">Retake</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"Contacts with photos get opened. Ones without get forgotten."</strong> — this is a factual statement that also functions as social persuasion. It's not manipulative; it's true. Stated plainly it earns more trust than a soft nudge. The skip link "I'll add one later" is first-person — the user makes the decision, not Bloop.
+    </div>
+  </div>
+
+  <!-- SCREEN 7 ─────────────────────────────────────────────────────────── -->
+  <div id="content-7" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">07 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Permissions primer</h1>
+    <p class="screen-oneliner">Step 3 of 4. Before iOS asks, Bloop explains. Every permission named and justified.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      A custom pre-permissions screen that explains each system permission Bloop will request, before the iOS native dialog appears. Users who understand why see dramatically higher grant rates. Each permission is listed with a plain-language reason. The CTA triggers all four system prompts in sequence.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Progress bar — 75% filled.</li>
+      <li><span class="el-bullet"></span>Step counter, headline, subhead.</li>
+      <li><span class="el-bullet"></span>Four permission rows, each with: coloured icon tile (36px), permission name (bold, 12pt), one-line reason (10pt, muted), and a visual toggle on the right (purely illustrative — tapping the row does nothing; CTA grants all).</li>
+      <li><span class="el-bullet"></span>Primary CTA at bottom — triggers native prompts in sequence.</li>
+      <li><span class="el-bullet"></span>"Not now" ghost below CTA — skips permissions (NFC feature will be limited).</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Step counter</td><td class="copy-text">Step 3 of 4</td></tr>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Before we ask, here's why</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">Four permissions. All of them worth it.</td></tr>
+        <tr><td class="el-name">NFC — name</td><td class="copy-text">NFC</td></tr>
+        <tr><td class="el-name">NFC — reason</td><td class="copy-text">So your card can tap. Without this, Bloop is just a pretty app.</td></tr>
+        <tr><td class="el-name">Notifications — name</td><td class="copy-text">Notifications</td></tr>
+        <tr><td class="el-name">Notifications — reason</td><td class="copy-text">We'll tell you when someone taps back. That's it.</td></tr>
+        <tr><td class="el-name">Contacts — name</td><td class="copy-text">Contacts</td></tr>
+        <tr><td class="el-name">Contacts — reason</td><td class="copy-text">To save people you tap to your phone in one go.</td></tr>
+        <tr><td class="el-name">Location — name</td><td class="copy-text">Location</td></tr>
+        <tr><td class="el-name">Location — reason</td><td class="copy-text">To log where each tap happened. Never shared, always yours.</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Let's do it</td></tr>
+        <tr><td class="el-name">Ghost link</td><td class="copy-text">Not now</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"Without this, Bloop is just a pretty app."</strong> — this line is the most honest thing in the onboarding flow. It names the consequence of denial without threatening the user. Every permission reason ends with a clear benefit. "Never shared, always yours" for location is the commitment that earns the grant.
+    </div>
+  </div>
+
+  <!-- SCREEN 8 ─────────────────────────────────────────────────────────── -->
+  <div id="content-8" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">08 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Activate your card — NFC pairing</h1>
+    <p class="screen-oneliner">The physical-to-digital handshake. The most important screen in the onboarding flow.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Pairs the user's physical Bloop card to their account by reading its unique NFC chip ID. The user holds their card to the back of their phone — the app reads the chip, registers the UID to the account, and routes to activation success. Handles: no card yet (skip option), card already registered to another account, NFC disabled on device, chip read failure.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Dark background (Bloop navy #1C2340) — signals a different, more significant moment from the rest of the flow.</li>
+      <li><span class="el-bullet"></span>Three concentric ring animation centred — pulsing softly, radiating outward. Accent green. NFC icon in the centre circle.</li>
+      <li><span class="el-bullet"></span>Headline (white, serif) + subhead (white, 40% opacity).</li>
+      <li><span class="el-bullet"></span>Visual hint below — a wireframe card illustration showing where to hold the card against the phone.</li>
+      <li><span class="el-bullet"></span>"I don't have my card yet" ghost link at the bottom — routes to the free digital-only mode.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline (waiting)</td><td class="copy-text">Hold your card to the back of your phone</td></tr>
+        <tr><td class="el-name">Subhead (waiting)</td><td class="copy-text">Somewhere near the top. Take your time.</td></tr>
+        <tr><td class="el-name">Card hint label</td><td class="copy-text">Your Bloop card</td></tr>
+        <tr><td class="el-name">Headline (reading)</td><td class="copy-text">Got it…</td></tr>
+        <tr><td class="el-name">Headline (success)</td><td class="copy-text">That's your card.</td></tr>
+        <tr><td class="el-name">Error — read fail</td><td class="copy-text">Missed it. Try again, a bit slower.</td></tr>
+        <tr><td class="el-name">Error — NFC off</td><td class="copy-text">NFC is off on your phone. Turn it on in Settings and come back.</td></tr>
+        <tr><td class="el-name">Error — already registered</td><td class="copy-text">This card's already tied to an account. Is it yours?</td></tr>
+        <tr><td class="el-name">Ghost link</td><td class="copy-text">I don't have my card yet</td></tr>
+        <tr><td class="el-name">No-card sub-link</td><td class="copy-text">Order one, or use Bloop digitally for now</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>The dark screen is intentional and load-bearing.</strong> This is the first moment the product proves it's more than an app — the physical card and the phone are about to talk to each other. The visual context should feel like a ceremony, not a form field. "Take your time." in the subhead is the calmest thing Bloop ever says, and it's the right call.
+    </div>
+  </div>
+
+  <!-- SCREEN 9 ─────────────────────────────────────────────────────────── -->
+  <div id="content-9" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">09 / 10</span> Onboarding</div>
+    <h1 class="screen-title">Activation success</h1>
+    <p class="screen-oneliner">The card is live. One sentence to celebrate it.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Confirmation state after successful NFC pairing. Shows a preview of the user's (still-empty) card. Routes to the final setup step — picking a card design. This is the emotional peak of onboarding. It's the moment the product becomes real.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Warm cream background — returns from the dark NFC screen, signals success without using red/green colour coding.</li>
+      <li><span class="el-bullet"></span>Large success ring (90px, soft accent fill) with checkmark — centred upper half.</li>
+      <li><span class="el-bullet"></span>Headline (serif, 24pt, centred).</li>
+      <li><span class="el-bullet"></span>Subhead (13pt, muted, centred, two lines max).</li>
+      <li><span class="el-bullet"></span>Card preview — a small, slightly rotated card mockup showing the user's name and avatar (if added). Gradient fills the card. Box shadow. This is the first time they see their card as an object.</li>
+      <li><span class="el-bullet"></span>Primary CTA full-width at bottom.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Your bloop is alive.</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">Card linked. Now let's make it look like you.</td></tr>
+        <tr><td class="el-name">CTA</td><td class="copy-text">Pick my card design</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>"Your bloop is alive."</strong> — the period is deliberate. This is a statement of fact, not an exclamation. The product doesn't over-celebrate because the card is still mostly empty — and the user knows it. The honesty of the subhead ("let's make it look like you") immediately redirects energy toward the next step rather than lingering. Restrained celebration is more credible than confetti.
+    </div>
+  </div>
+
+  <!-- SCREEN 10 ────────────────────────────────────────────────────────── -->
+  <div id="content-10" class="screen-content" style="display:none">
+    <div class="screen-tag"><span class="screen-number">10 / 10</span> Onboarding</div>
+    <h1 class="screen-title">First card setup — pick your design</h1>
+    <p class="screen-oneliner">Step 4 of 4. The last step of onboarding. The first real design decision the user makes.</p>
+
+    <div class="section-label">Function</div>
+    <div class="function-block">
+      Lets the user pick which physical card design to associate with their account. Free standard card is default selected. Premium and limited options are shown — tapping one shows a detail sheet. Completing this step ends onboarding and opens the home screen. Also the first conversion point for premium card upsell.
+    </div>
+
+    <div class="section-label">Screen elements</div>
+    <ul class="elements-list">
+      <li><span class="el-bullet"></span>Progress bar — 100% filled. Completion visible before the user taps anything on this screen.</li>
+      <li><span class="el-bullet"></span>Step counter + headline + subhead.</li>
+      <li><span class="el-bullet"></span>Card option rows (three visible, scroll for more): each with a card visual (gradient preview, 100px wide), card name, price or badge, and ship-time note. Active selection has accent-green border.</li>
+      <li><span class="el-bullet"></span>Standard card is pre-selected by default — users can proceed immediately without reading anything else.</li>
+      <li><span class="el-bullet"></span>Premium options show a small badge ("Metal", "Limited") and a price. Tapping opens a detail half-sheet with material info and shipping ETA.</li>
+      <li><span class="el-bullet"></span>Primary CTA at bottom — copy adapts based on selection.</li>
+    </ul>
+
+    <div class="section-label">UX copy</div>
+    <table class="copy-table">
+      <thead><tr><th>Element</th><th>Copy</th></tr></thead>
+      <tbody>
+        <tr><td class="el-name">Step counter</td><td class="copy-text">Step 4 of 4</td></tr>
+        <tr><td class="el-name">Headline</td><td class="copy-text">Pick your card</td></tr>
+        <tr><td class="el-name">Subhead</td><td class="copy-text">Standard is free and ships in 5 days. Upgrade any time.</td></tr>
+        <tr><td class="el-name">Card 1 — name</td><td class="copy-text">Standard</td></tr>
+        <tr><td class="el-name">Card 1 — badge</td><td class="copy-text">Free</td></tr>
+        <tr><td class="el-name">Card 1 — ship note</td><td class="copy-text">Ships in 5 days</td></tr>
+        <tr><td class="el-name">Card 2 — name</td><td class="copy-text">Metal</td></tr>
+        <tr><td class="el-name">Card 2 — price</td><td class="copy-text">₹2,400</td></tr>
+        <tr><td class="el-name">Card 2 — ship note</td><td class="copy-text">Ships in 10 days</td></tr>
+        <tr><td class="el-name">Card 3 — name</td><td class="copy-text">Limited drop</td></tr>
+        <tr><td class="el-name">Card 3 — badge</td><td class="copy-text">Limited</td></tr>
+        <tr><td class="el-name">Card 3 — ship note</td><td class="copy-text">Ships when the drop closes</td></tr>
+        <tr><td class="el-name">CTA — standard</td><td class="copy-text">Start with Standard</td></tr>
+        <tr><td class="el-name">CTA — premium</td><td class="copy-text">Order the Metal card</td></tr>
+        <tr><td class="el-name">CTA — limited</td><td class="copy-text">I want the limited card</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-label">Brand note</div>
+    <div class="note-block">
+      <strong>The CTA adapts to the selection.</strong> "I want the limited card" is first-person and desire-driven — it mirrors how someone actually thinks when they choose a premium product. "Start with Standard" acknowledges that the free choice is a valid starting point, not a lesser one. Bloop never makes free users feel like they chose wrong.
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- RIGHT — PHONE VIEWPORT -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<aside class="viewport">
+  <div class="wf-indicator" id="wf-label">Screen 01</div>
+  <div class="screen-label-top" id="screen-name-top">Splash</div>
+
+  <div class="phone">
+    <div class="phone-screen">
+
+      <!-- S1: Splash -->
+      <div class="wf wf-1 active wf-status-dark">
+        <div class="status-bar">
+          <span class="status-time" style="color:#fff;opacity:.5">9:41</span>
+          <div class="status-icons" style="color:#fff;opacity:.5">
+            <span class="si wifi"></span>
+            <span class="si bat"></span>
+          </div>
+        </div>
+        <span class="splash-word">bloop<span class="splash-dot"></span></span>
+      </div>
+
+      <!-- S2: Welcome -->
+      <div class="wf wf-2 wf-status-light">
+        <div class="status-bar" style="color:#fff;opacity:.7">
+          <span class="status-time">9:41</span>
+          <div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div>
+        </div>
+        <div class="welcome-hero">
+          <div class="hero-card-2"></div>
+          <div class="hero-card">bloop</div>
+        </div>
+        <div class="welcome-copy">
+          <div class="welcome-title">One tap. You exist on their phone now.</div>
+          <div class="welcome-body">NFC contact card that shares everything — or only what you want.</div>
+          <div class="dots">
+            <div class="dot"></div>
+            <div class="dot inactive"></div>
+            <div class="dot inactive"></div>
+          </div>
+          <div class="btn-primary">Next</div>
+          <div class="btn-ghost">Sign in instead</div>
+        </div>
+      </div>
+
+      <!-- S3: Sign up -->
+      <div class="wf wf-3 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="su-logo">bloop</div>
+        <div class="su-title">Let's get you a bloop</div>
+        <div class="su-sub">Takes about two minutes.</div>
+        <div class="tab-row">
+          <div class="tab active">Phone</div>
+          <div class="tab">Email</div>
+        </div>
+        <div class="wf-field focused">
+          <div class="wf-field-label">Mobile number</div>
+          <div class="wf-field-value">+91  |</div>
+        </div>
+        <div class="su-cta">Send the code</div>
+        <div class="su-terms">By continuing you agree to our Terms and Privacy Policy.</div>
+      </div>
+
+      <!-- S4: OTP -->
+      <div class="wf wf-4 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="back-row"><div class="back-arr"></div></div>
+        <div class="otp-title">Check your messages</div>
+        <div class="otp-sub">We sent a 6-digit code to +91 •••• 8907</div>
+        <div class="otp-boxes">
+          <div class="otp-box filled">4</div>
+          <div class="otp-box filled">8</div>
+          <div class="otp-box filled">2</div>
+          <div class="otp-box">|</div>
+          <div class="otp-box" style="border-color:#DDD8CC;color:transparent">_</div>
+          <div class="otp-box" style="border-color:#DDD8CC;color:transparent">_</div>
+        </div>
+        <div class="otp-resend">Resend in 22s</div>
+        <div class="otp-cta" style="opacity:0.4">Verify</div>
+      </div>
+
+      <!-- S5: Name -->
+      <div class="wf wf-5 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="progress"><div class="progress-fill"></div></div>
+        <div class="step-num">Step 1 of 4</div>
+        <div class="name-title">What do people call you?</div>
+        <div class="name-sub">This is your default name on your card. You can change it per profile.</div>
+        <div class="wf-field focused">
+          <div class="wf-field-label">First name</div>
+          <div class="wf-field-value">Joey|</div>
+        </div>
+        <div class="wf-field">
+          <div class="wf-field-label">Last name  ·  Optional</div>
+          <div class="wf-field-value placeholder">Your last name</div>
+        </div>
+        <div class="name-cta">That's my name</div>
+      </div>
+
+      <!-- S6: Photo -->
+      <div class="wf wf-6 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="progress"><div class="progress-fill"></div></div>
+        <div class="step-num">Step 2 of 4</div>
+        <div class="photo-title">Put a face to the tap</div>
+        <div class="photo-sub">Contacts with photos get opened. Ones without get forgotten.</div>
+        <div class="avatar-zone">
+          <div class="avatar-circle"></div>
+          <div class="avatar-caption">Only shared when someone taps your card</div>
+        </div>
+        <div class="photo-options">
+          <div class="opt-btn opt-primary">Take a photo</div>
+          <div class="opt-btn opt-ghost">Library</div>
+        </div>
+        <div class="photo-skip">I'll add one later</div>
+      </div>
+
+      <!-- S7: Permissions -->
+      <div class="wf wf-7 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="progress"><div class="progress-fill"></div></div>
+        <div class="step-num">Step 3 of 4</div>
+        <div class="perm-title">Before we ask, here's why</div>
+        <div class="perm-sub">Four permissions. All of them worth it.</div>
+        <div class="perm-row">
+          <div class="perm-icon">📡</div>
+          <div class="perm-text">
+            <div class="perm-name">NFC</div>
+            <div class="perm-why">So your card can tap</div>
+          </div>
+          <div class="perm-toggle"></div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-icon">🔔</div>
+          <div class="perm-text">
+            <div class="perm-name">Notifications</div>
+            <div class="perm-why">When someone taps back</div>
+          </div>
+          <div class="perm-toggle off"></div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-icon">👤</div>
+          <div class="perm-text">
+            <div class="perm-name">Contacts</div>
+            <div class="perm-why">Save people you tap</div>
+          </div>
+          <div class="perm-toggle off"></div>
+        </div>
+        <div class="perm-row">
+          <div class="perm-icon">📍</div>
+          <div class="perm-text">
+            <div class="perm-name">Location</div>
+            <div class="perm-why">Log where each tap happened</div>
+          </div>
+          <div class="perm-toggle off"></div>
+        </div>
+        <div class="perm-cta">Let's do it</div>
+      </div>
+
+      <!-- S8: NFC Pairing -->
+      <div class="wf wf-8">
+        <div class="status-bar" style="color:rgba(255,255,255,0.4);position:absolute;top:0;left:0;right:0;">
+          <span class="status-time">9:41</span>
+          <div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div>
+        </div>
+        <div class="nfc-ring">
+          <div class="nfc-icon">📶</div>
+        </div>
+        <div class="nfc-title">Hold your card to the back of your phone</div>
+        <div class="nfc-sub">Somewhere near the top. Take your time.</div>
+        <div class="nfc-card-hint">Your Bloop card</div>
+        <div class="nfc-skip">I don't have my card yet</div>
+      </div>
+
+      <!-- S9: Success -->
+      <div class="wf wf-9">
+        <div class="status-bar" style="position:absolute;top:0;left:0;right:0;color:#111;">
+          <span class="status-time">9:41</span>
+          <div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div>
+        </div>
+        <div class="success-ring">
+          <div class="check">✓</div>
+        </div>
+        <div class="success-title">Your bloop is alive.</div>
+        <div class="success-sub">Card linked. Now let's make it look like you.</div>
+        <div class="card-preview">bloop</div>
+        <div class="success-cta">Pick my card design</div>
+      </div>
+
+      <!-- S10: Card picker -->
+      <div class="wf wf-10 wf-status-light">
+        <div class="status-bar"><span class="status-time">9:41</span><div class="status-icons"><span class="si wifi"></span><span class="si bat"></span></div></div>
+        <div class="progress"><div class="progress-fill"></div></div>
+        <div class="step-num">Step 4 of 4</div>
+        <div class="card-pick-title">Pick your card</div>
+        <div class="card-pick-sub">Standard is free and ships in 5 days. Upgrade any time.</div>
+        <div class="card-option selected">
+          <div class="card-option-visual" style="background:#F0EDE5;">
+            <div class="card-mini card-mini-a"></div>
+          </div>
+          <div class="card-option-info">
+            <div>
+              <div class="card-option-name">Standard</div>
+              <div class="card-option-price">Ships in 5 days</div>
+            </div>
+            <div class="card-option-badge badge-free">Free</div>
+          </div>
+        </div>
+        <div class="card-option">
+          <div class="card-option-visual" style="background:#E8E5E0;">
+            <div class="card-mini card-mini-b"></div>
+          </div>
+          <div class="card-option-info">
+            <div>
+              <div class="card-option-name">Metal</div>
+              <div class="card-option-price">Ships in 10 days</div>
+            </div>
+            <div class="card-option-badge badge-premium">₹2,400</div>
+          </div>
+        </div>
+        <div class="card-cta">Start with Standard</div>
+      </div>
+
+    </div><!-- /phone-screen -->
+  </div><!-- /phone -->
+
+  <div class="screen-label-bottom" id="pip-row">
+    <div class="scr-pip active" onclick="showScreen(1)"></div>
+    <div class="scr-pip" onclick="showScreen(2)"></div>
+    <div class="scr-pip" onclick="showScreen(3)"></div>
+    <div class="scr-pip" onclick="showScreen(4)"></div>
+    <div class="scr-pip" onclick="showScreen(5)"></div>
+    <div class="scr-pip" onclick="showScreen(6)"></div>
+    <div class="scr-pip" onclick="showScreen(7)"></div>
+    <div class="scr-pip" onclick="showScreen(8)"></div>
+    <div class="scr-pip" onclick="showScreen(9)"></div>
+    <div class="scr-pip" onclick="showScreen(10)"></div>
+  </div>
+</aside>
+
+</div><!-- /shell -->
+
+<script>
+const SCREENS = {
+  1:  { name: "Splash",                       section: "Onboarding" },
+  2:  { name: "Welcome carousel",             section: "Onboarding" },
+  3:  { name: "Sign up",                      section: "Onboarding" },
+  4:  { name: "OTP verification",             section: "Onboarding" },
+  5:  { name: "Name capture",                 section: "Onboarding" },
+  6:  { name: "Profile photo",                section: "Onboarding" },
+  7:  { name: "Permissions",                  section: "Onboarding" },
+  8:  { name: "NFC pairing",                  section: "Onboarding" },
+  9:  { name: "Activation success",           section: "Onboarding" },
+  10: { name: "First card setup",             section: "Onboarding" },
+};
+
+let current = 1;
+
+function showScreen(n) {
+  // nav items
+  document.querySelectorAll('.nav-item').forEach((el, i) => {
+    el.classList.toggle('active', i + 1 === n);
+  });
+
+  // content panels
+  document.querySelectorAll('.screen-content').forEach(el => el.style.display = 'none');
+  const panel = document.getElementById('content-' + n);
+  if (panel) { panel.style.display = 'block'; }
+
+  // phone wireframes
+  document.querySelectorAll('.wf').forEach(el => el.classList.remove('active'));
+  const wf = document.querySelector('.wf-' + n);
+  if (wf) { wf.classList.add('active'); }
+
+  // pips
+  document.querySelectorAll('.scr-pip').forEach((el, i) => {
+    el.classList.toggle('active', i + 1 === n);
+  });
+
+  // labels
+  const info = SCREENS[n];
+  document.getElementById('wf-label').textContent = 'Screen ' + String(n).padStart(2, '0');
+  document.getElementById('screen-name-top').textContent = info.name;
+
+  // scroll content to top
+  document.getElementById('content-area').scrollTop = 0;
+
+  current = n;
+  return false;
+}
+
+// keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    if (current < 10) showScreen(current + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    if (current > 1) showScreen(current - 1);
+  }
+});
+</script>
+</body>
+</html>
