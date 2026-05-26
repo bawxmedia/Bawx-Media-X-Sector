@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Bloop — One tap, every connection</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --white:   #ffffff;
+    --off:     #f7f7f7;
+    --card-bg: #f4f4f4;
+    --ink:     #111111;
+    --ink-2:   #1b1b1b;
+    --muted:   #6b6b6b;
+    --border:  #e2e2e2;
+    --green:   #1f6e5a;
+    --green-light: #d8ece6;
+    --red:     #e53e3e;
+    --font:    'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  html, body {
+    background: var(--white);
+    color: var(--ink);
+    font-family: var(--font);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE ── */
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 72px 64px 80px;
+  }
+
+  /* ── HEADER ROW ── */
+  .header-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 56px;
+    align-items: start;
+  }
+
+  .headline {
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  .desc {
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--muted);
+    max-width: 340px;
+    padding-top: 6px;
+  }
+
+  /* ── THREE CARDS GRID ── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    cursor: default;
+  }
+  .card:hover {
+    box-shadow: 0 12px 40px rgba(0,0,0,0.09);
+    transform: translateY(-2px);
+  }
+
+  /* card visual zone — top half */
+  .card-visual {
+    height: 260px;
+    background: #ebebeb;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* card text zone — bottom half */
+  .card-text {
+    padding: 28px 28px 32px;
+    background: var(--card-bg);
+    flex: 1;
+  }
+  .card-title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .card-body {
+    font-size: 13.5px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+
+  /* ─────────────────────────────────────────────────── */
+  /* CARD 1 VISUAL — Profile selector mockup            */
+  /* ─────────────────────────────────────────────────── */
+  .mock-panel {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 18px 16px;
+    width: 200px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .mock-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    letter-spacing: 0.01em;
+    margin-bottom: 12px;
+  }
+  .mock-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 7px 0;
+    border-bottom: 1px solid #f2f2f2;
+  }
+  .mock-item:last-child { border-bottom: none; }
+  .mock-check {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--green);
+  }
+  .mock-check svg { width: 11px; height: 11px; }
+  .mock-check-empty {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    border: 1.5px solid #d0d0d0;
+    flex-shrink: 0;
+    background: #fff;
+  }
+  .mock-row-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ink-2);
+  }
+  .mock-row-skeleton {
+    height: 10px;
+    border-radius: 5px;
+    background: #ebebeb;
+  }
+  .mock-row-skeleton.w60 { width: 60%; }
+  .mock-row-skeleton.w45 { width: 45%; }
+
+  /* ─────────────────────────────────────────────────── */
+  /* CARD 2 VISUAL — Live tap notification              */
+  /* ─────────────────────────────────────────────────── */
+  .tap-bg {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #d6d6d6 0%, #c8c8c8 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 28px;
+    position: relative;
+  }
+  /* Fake two-pane photo split */
+  .tap-photo-left {
+    position: absolute;
+    inset: 0;
+    right: 50%;
+    background: #bdbdbd;
+    overflow: hidden;
+  }
+  .tap-photo-right {
+    position: absolute;
+    inset: 0;
+    left: 50%;
+    background: #cacaca;
+    overflow: hidden;
+  }
+  /* silhouette-style person shapes */
+  .person-shape {
+    position: absolute;
+    bottom: 0;
+    width: 80%;
+    height: 85%;
+  }
+  .person-left {
+    left: 50%;
+    transform: translateX(-50%);
+    background: #a8a8a8;
+    border-radius: 40% 40% 0 0;
+  }
+  .person-left::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #a8a8a8;
+  }
+  .person-right {
+    left: 50%;
+    transform: translateX(-50%);
+    background: #b8b8b8;
+    border-radius: 40% 40% 0 0;
+  }
+  .person-right::before {
+    content: '';
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #b8b8b8;
+  }
+  /* notification pill */
+  .tap-notif {
+    position: relative;
+    z-index: 4;
+    background: rgba(20,20,20,0.88);
+    backdrop-filter: blur(12px);
+    border-radius: 14px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 220px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+  .tap-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--green);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .tap-avatar-inner {
+    /* inline Bloop iconmark in white, scaled down */
+    width: 20px; height: 13px;
+  }
+  .tap-info { flex: 1; }
+  .tap-name {
+    font-size: 12px; font-weight: 600;
+    color: #fff; line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .tap-sub {
+    font-size: 11px; color: rgba(255,255,255,0.55);
+    margin-top: 1px;
+  }
+  .tap-actions {
+    display: flex; gap: 7px;
+  }
+  .tap-btn {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tap-btn-red   { background: #e53e3e; }
+  .tap-btn-green { background: var(--green); }
+  .tap-btn svg { width: 14px; height: 14px; }
+
+  /* ─────────────────────────────────────────────────── */
+  /* CARD 3 VISUAL — Card detail / pricing panel        */
+  /* ─────────────────────────────────────────────────── */
+  .pricing-panel {
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 14px;
+    padding: 20px 20px 20px;
+    width: 210px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+  .pricing-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 18px;
+  }
+  .pricing-name {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .pricing-price {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pricing-skeletons {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 20px;
+  }
+  .sk {
+    height: 9px;
+    border-radius: 5px;
+    background: #ebebeb;
+  }
+  .sk.w80 { width: 80%; }
+  .sk.w60 { width: 60%; }
+  .sk.w70 { width: 70%; }
+  .pricing-btn {
+    width: 100%;
+    height: 40px;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── WORDMARK SVG INLINE ── */
+  .wordmark-svg {
+    display: block;
+  }
+
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ── HEADER ROW ─────────────────────────────────────── -->
+  <div class="header-row">
+    <h1 class="headline">One tap.<br>Every connection.</h1>
+    <p class="desc">When you meet someone worth remembering, you shouldn't have to think about it. Bloop saves the person, the moment, and the place — automatically, every time.</p>
+  </div>
+
+  <!-- ── THREE CARDS ────────────────────────────────────── -->
+  <div class="cards">
+
+    <!-- CARD 1 — Profile picker -->
+    <div class="card">
+      <div class="card-visual">
+        <div class="mock-panel">
+          <div class="mock-label">Profile to share</div>
+
+          <div class="mock-item">
+            <div class="mock-check">
+              <!-- checkmark -->
+              <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2 6L5 9L10 3" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="mock-row-label">Social profile</span>
+          </div>
+
+          <div class="mock-item">
+            <div class="mock-check-empty"></div>
+            <div class="mock-row-skeleton w60"></div>
+          </div>
+
+          <div class="mock-item">
+            <div class="mock-check-empty"></div>
+            <div class="mock-row-skeleton w45"></div>
+          </div>
+
+          <div class="mock-item" style="border-bottom:none;">
+            <div class="mock-check-empty"></div>
+            <div class="mock-row-skeleton w60" style="width:55%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="card-title">One card,<br>many profiles</div>
+        <div class="card-body">Switch between your social, corporate, and studio profiles in one tap. One chip, every version of you.</div>
+      </div>
+    </div>
+
+    <!-- CARD 2 — Tap notification -->
+    <div class="card">
+      <div class="card-visual">
+        <div class="tap-bg">
+          <div class="tap-photo-left">
+            <div class="person-shape person-left"></div>
+          </div>
+          <div class="tap-photo-right">
+            <div class="person-shape person-right"></div>
+          </div>
+
+          <div class="tap-notif">
+            <div class="tap-avatar">
+              <!-- Bloop iconmark in white, scaled to fit -->
+              <svg class="tap-avatar-inner" viewBox="0 0 1142 736" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M825.302 3.42462C775.308 -2.22449 727.691 1.99783 682.45 16.0911C637.306 29.3224 596.985 50.0822 561.488 78.3711C525.991 106.66 496.756 141.332 473.785 182.385C470.322 188.336 467.053 194.384 463.974 200.525L566.066 361.326C566.175 353.333 566.689 345.234 567.616 337.029C571.22 305.137 580.134 276.463 594.359 251.008C608.682 224.691 626.876 202.74 648.942 185.155C670.145 167.472 694.74 154.537 722.727 146.351C750.715 138.164 780.656 135.874 812.549 139.478C842.718 142.887 870.53 151.703 895.985 165.928C920.578 180.056 941.235 198.104 957.959 220.072C974.682 242.041 987.087 267.449 995.176 296.299C1002.5 324.189 1004.36 354.08 1000.76 385.973C997.252 417.004 988.816 445.297 975.452 470.849C961.325 495.442 943.66 516.579 922.456 534.261C900.488 550.985 875.941 563.489 848.815 571.773C821.788 579.194 793.19 581.201 763.021 577.792C737.302 574.885 713.466 568.588 691.511 558.91L791.059 715.707C823.809 715.446 855.626 710.792 886.509 701.74C931.751 687.647 972.12 666.455 1007.62 638.166C1043.11 609.877 1072.78 575.253 1096.61 534.298C1119.58 493.245 1133.84 448.152 1139.4 399.02C1145.05 349.026 1141.25 301.456 1128.02 256.312C1114.79 211.168 1094.03 170.847 1065.74 135.35C1036.59 99.756 1001.49 70.4739 960.436 47.5025C919.48 23.6691 874.435 8.97641 825.302 3.42462Z" fill="white"/>
+                <path d="M316.63 733.47C366.624 739.12 414.241 734.897 459.482 720.804C504.626 707.573 544.947 686.813 580.444 658.524C615.941 630.235 645.176 595.563 668.147 554.51C671.428 548.872 674.535 543.147 677.471 537.338L575.84 377.261C575.685 384.703 575.177 392.239 574.316 399.866C570.712 431.759 561.798 460.432 547.573 485.887C533.251 512.204 515.056 534.155 492.99 551.74C471.787 569.423 447.192 582.358 419.205 590.544C391.217 598.731 361.276 601.021 329.383 597.417C299.214 594.008 271.402 585.192 245.947 570.967C221.354 556.839 200.697 538.791 183.973 516.823C167.25 494.854 154.845 469.446 146.756 440.596C139.432 412.707 137.57 382.815 141.174 350.922C144.68 319.891 153.117 291.598 166.48 266.046C180.607 241.453 198.272 220.316 219.476 202.634C241.444 185.91 265.991 173.406 293.117 165.122C320.144 157.701 348.743 155.695 378.911 159.103C404.035 161.942 427.364 168.014 448.897 177.315L349.78 21.1994C317.415 21.5544 285.962 26.2038 255.423 35.1547C210.181 49.2481 169.812 70.44 134.315 98.7291C98.8184 127.018 69.1541 161.642 45.3208 202.597C22.3495 243.65 8.08761 288.743 2.53583 337.875C-3.11337 387.87 0.677984 435.439 13.9094 480.583C27.1409 525.727 47.9004 566.048 76.1895 601.545C105.341 637.139 140.443 666.421 181.496 689.393C222.452 713.226 267.497 727.919 316.63 733.47Z" fill="white"/>
+              </svg>
+            </div>
+            <div class="tap-info">
+              <div class="tap-name">Meera Nair tapped you</div>
+              <div class="tap-sub">Just now · Kala Ghoda, Mumbai</div>
+            </div>
+            <div class="tap-actions">
+              <div class="tap-btn tap-btn-red">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 3L11 11M11 3L3 11" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div class="tap-btn tap-btn-green">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.5 7.5L5.5 10.5L11.5 3.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="card-title">Know who<br>tapped you</div>
+        <div class="card-body">Every tap logs the person, the time, and the place. Your social life, finally organised — without you doing anything.</div>
+      </div>
+    </div>
+
+    <!-- CARD 3 — Card / pricing detail -->
+    <div class="card">
+      <div class="card-visual">
+        <div class="pricing-panel">
+          <div class="pricing-top">
+            <div class="pricing-name">Metal<br>card</div>
+            <div class="pricing-price">₹2,400</div>
+          </div>
+          <div class="pricing-skeletons">
+            <div class="sk w80"></div>
+            <div class="sk w60"></div>
+            <div class="sk w70"></div>
+          </div>
+          <div class="pricing-btn">Order now</div>
+        </div>
+      </div>
+      <div class="card-text">
+        <div class="card-title">Cards that<br>make an entrance</div>
+        <div class="card-body">Standard, metal, or limited-edition drops. The physical card is the product. The app is what makes it intelligent.</div>
+      </div>
+    </div>
+
+  </div><!-- /cards -->
+
+  <!-- ── FOOTER WORDMARK ─────────────────────────────── -->
+  <div style="margin-top: 72px; display: flex; align-items: center; gap: 20px;">
+    <!-- Bloop wordmark — black, scaled to ~80px tall -->
+    <svg width="206" height="80" viewBox="0 0 1822 706" fill="none" xmlns="http://www.w3.org/2000/svg" class="wordmark-svg">
+      <path d="M849.859 139.524C878.194 136.322 905.183 138.715 930.824 146.703C956.411 154.202 979.264 165.968 999.383 182.002C1019.5 198.035 1036.07 217.686 1049.09 240.954C1051.05 244.327 1052.91 247.755 1054.65 251.236L996.788 342.373C996.726 337.844 996.435 333.253 995.909 328.603C993.867 310.527 988.814 294.275 980.752 279.848C972.634 264.932 962.322 252.491 949.816 242.524C937.798 232.502 923.859 225.17 907.996 220.531C892.133 215.891 875.163 214.593 857.087 216.635C839.988 218.567 824.225 223.564 809.798 231.627C795.859 239.634 784.151 249.864 774.673 262.315C765.194 274.766 758.163 289.167 753.579 305.518C749.427 321.325 748.372 338.267 750.415 356.343C752.402 373.93 757.184 389.966 764.758 404.449C772.765 418.387 782.777 430.367 794.794 440.389C807.245 449.868 821.158 456.955 836.532 461.65C851.851 465.856 868.06 466.993 885.159 465.061C899.736 463.414 913.245 459.844 925.689 454.36L869.267 543.228C850.705 543.08 832.672 540.443 815.168 535.312C789.527 527.324 766.646 515.313 746.527 499.28C726.409 483.246 709.596 463.623 696.088 440.41C683.068 417.142 674.985 391.585 671.838 363.738C668.636 335.402 670.785 308.441 678.284 282.854C685.784 257.268 697.55 234.415 713.583 214.296C730.105 194.122 750.001 177.526 773.269 164.506C796.481 150.998 822.012 142.67 849.859 139.524Z" fill="#1B1B1B"/>
+      <path d="M1138.16 553.296C1109.83 556.498 1082.84 554.105 1057.2 546.117C1031.61 538.618 1008.76 526.852 988.639 510.818C968.52 494.785 951.95 475.134 938.931 451.866C937.071 448.67 935.31 445.425 933.646 442.133L991.248 351.405C991.336 355.623 991.624 359.894 992.112 364.217C994.155 382.293 999.207 398.545 1007.27 412.972C1015.39 427.888 1025.7 440.329 1038.21 450.296C1050.22 460.318 1064.16 467.649 1080.03 472.289C1095.89 476.929 1112.86 478.227 1130.93 476.185C1148.03 474.252 1163.8 469.255 1178.22 461.193C1192.16 453.186 1203.87 442.956 1213.35 430.505C1222.83 418.054 1229.86 403.653 1234.44 387.302C1238.59 371.495 1239.65 354.553 1237.61 336.477C1235.62 318.889 1230.84 302.854 1223.26 288.371C1215.26 274.433 1205.24 262.453 1193.23 252.431C1180.78 242.952 1166.86 235.865 1151.49 231.17C1136.17 226.964 1119.96 225.827 1102.86 227.759C1088.62 229.368 1075.4 232.809 1063.2 238.08L1119.37 149.598C1137.72 149.799 1155.54 152.434 1172.85 157.508C1198.49 165.495 1221.38 177.506 1241.49 193.54C1261.61 209.574 1278.43 229.197 1291.93 252.41C1304.95 275.678 1313.04 301.235 1316.18 329.082C1319.39 357.418 1317.24 384.379 1309.74 409.966C1302.24 435.552 1290.47 458.405 1274.44 478.524C1257.92 498.698 1238.02 515.294 1214.75 528.314C1191.54 541.822 1166.01 550.15 1138.16 553.296Z" fill="#1B1B1B"/>
+      <path d="M78.316 201.492C91.4953 182.737 109.744 167.53 133.061 155.872C156.885 144.213 183.244 138.384 212.137 138.384C242.044 138.384 269.417 143.706 294.255 154.351C319.093 164.489 340.636 178.935 358.885 197.691C377.133 215.939 391.326 237.989 401.464 263.841C412.109 289.186 417.432 316.812 417.432 346.719C417.432 376.626 412.109 404.252 401.464 429.597C390.819 454.942 375.866 476.992 356.604 495.748C337.848 514.503 315.545 529.203 289.693 539.848C264.348 550.493 236.722 555.815 206.815 555.815C176.401 555.815 148.522 550.493 123.177 539.848C98.3385 528.696 76.5418 513.743 57.7865 494.987C39.5382 475.725 25.345 452.915 15.207 426.556C5.06899 399.69 0 370.543 0 339.116V0H78.316V201.492ZM336.074 349C336.074 330.245 332.779 313.01 326.19 297.296C319.6 281.076 310.476 267.136 298.817 255.477C287.665 243.819 274.233 234.694 258.519 228.105C242.805 221.515 225.824 218.22 207.575 218.22C189.327 218.22 172.346 221.515 156.632 228.105C141.425 234.694 127.992 243.819 116.333 255.477C105.182 267.136 96.3109 281.076 89.7212 297.296C83.6384 313.01 80.597 330.498 80.597 349.761C80.597 366.995 83.8918 383.469 90.4815 399.183C97.0712 414.39 105.942 427.823 117.094 439.482C128.752 450.634 142.185 459.504 157.392 466.094C173.106 472.684 189.58 475.979 206.815 475.979C225.063 475.979 242.044 472.937 257.758 466.854C273.472 460.265 287.159 451.394 298.817 440.242C310.476 428.583 319.6 415.151 326.19 399.944C332.779 384.23 336.074 367.249 336.074 349Z" fill="#1B1B1B"/>
+      <path d="M505.641 0.210938H544.778H584.316V555.211H505.24L505.641 0.210938Z" fill="#1B1B1B"/>
+      <path d="M1403.89 705.604V354.323C1403.89 322.388 1408.96 293.241 1419.1 266.883C1429.24 240.524 1443.43 217.967 1461.68 199.211C1479.93 179.949 1501.72 164.996 1527.07 154.351C1552.41 143.706 1580.29 138.384 1610.71 138.384C1640.61 138.384 1668.24 143.706 1693.58 154.351C1719.44 164.996 1741.74 179.696 1760.49 198.451C1779.76 217.206 1794.71 239.257 1805.35 264.601C1816 289.946 1821.32 317.572 1821.32 347.48C1821.32 377.387 1816 405.266 1805.35 431.118C1794.71 456.463 1780.01 478.513 1761.25 497.268C1743.01 515.517 1720.96 529.963 1695.1 540.608C1669.25 550.746 1641.37 555.815 1611.47 555.815C1585.61 555.815 1561.03 550.493 1537.71 539.848C1514.39 528.696 1495.89 513.743 1482.21 494.987V705.604H1403.89ZM1739.96 345.198C1739.96 327.457 1736.67 310.983 1730.08 295.776C1723.49 280.062 1714.37 266.629 1702.71 255.477C1691.05 243.819 1677.36 234.948 1661.65 228.865C1645.94 222.275 1628.95 218.981 1610.71 218.981C1593.47 218.981 1577 222.275 1561.28 228.865C1546.08 235.455 1532.64 244.579 1520.98 256.238C1509.83 267.389 1500.96 280.569 1494.37 295.776C1487.78 310.983 1484.49 327.204 1484.49 344.438C1484.49 363.193 1487.53 380.681 1493.61 396.902C1500.2 412.616 1509.07 426.302 1520.22 437.961C1531.88 449.62 1545.32 458.744 1560.52 465.334C1576.24 471.923 1593.22 475.218 1611.47 475.218C1629.71 475.218 1646.7 471.923 1662.41 465.334C1678.12 458.744 1691.56 449.873 1702.71 438.721C1714.37 427.063 1723.49 413.376 1730.08 397.663C1736.67 381.442 1739.96 363.954 1739.96 345.198Z" fill="#1B1B1B"/>
+    </svg>
+
+    <span style="font-size:13px; color:#aaa; font-family:'Geist',sans-serif; letter-spacing:0.02em;">
+      Screen Specifications — Onboarding v0.1
+    </span>
+  </div>
+
+</div>
+</body>
+</html>
