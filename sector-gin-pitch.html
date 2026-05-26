@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sector × Bloop — A Proposal for the Next Voyage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Palette pulled from the Sector bottle */
+    --paper: #ede4d1;            /* warm bottle label cream */
+    --paper-2: #e5d9bf;           /* deeper label tone */
+    --paper-3: #f5eedc;           /* lightest cream */
+    --ink: #1a2438;               /* dark navy from "SECTOR" wordmark */
+    --ink-deep: #0f1726;          /* darkest navy / bar background */
+    --crimson: #a31f1a;           /* the wax cap red */
+    --crimson-deep: #7a1612;      /* shadow red */
+    --copper: #c97f3c;            /* gin amber */
+    --copper-soft: #e0a063;
+    --sage: #6b7a4e;              /* botanical green */
+    --line: rgba(26, 36, 56, 0.18);
+    --line-faint: rgba(26, 36, 56, 0.08);
+    --line-on-dark: rgba(237, 228, 209, 0.16);
+
+    --display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --body: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--crimson); color: var(--paper); }
+
+  /* Paper grain texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 240 240' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.08 0 0 0 0 0.05 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ─── NAV ─── */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(14px);
+    background: rgba(237, 228, 209, 0.78);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-brand {
+    font-family: var(--display);
+    font-size: 19px;
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink);
+  }
+  .nav-brand .wax {
+    width: 9px; height: 9px;
+    background: var(--crimson);
+    border-radius: 50%;
+    box-shadow: 0 0 0 3px rgba(163, 31, 26, 0.18);
+  }
+  .nav-brand em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 500;
+  }
+  .nav-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--ink);
+    display: flex;
+    gap: 22px;
+    align-items: center;
+  }
+  .nav-meta .coords {
+    color: rgba(26, 36, 56, 0.6);
+  }
+  .nav-meta .pill {
+    padding: 5px 12px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    background: rgba(245, 238, 220, 0.6);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    padding: 130px 36px 80px;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  /* Decorative arc behind hero like bottle label edges */
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 700px; height: 700px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -260px; right: -260px;
+    width: 820px; height: 820px;
+    border: 1px solid var(--line-faint);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+
+  .hero-left { position: relative; z-index: 2; }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 40px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--crimson);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding: 8px 14px 8px 8px;
+    background: rgba(163, 31, 26, 0.06);
+    border: 1px solid rgba(163, 31, 26, 0.2);
+    border-radius: 100px;
+  }
+  .hero-eyebrow .seal {
+    width: 22px; height: 22px;
+    background: var(--crimson);
+    color: var(--paper);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(48px, 7.2vw, 116px);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  .hero h1 .ampersand {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--copper);
+    font-weight: 400;
+    font-size: 1.05em;
+    line-height: 0.8;
+    display: inline-block;
+    padding: 0 0.04em;
+  }
+  .hero h1 .underscore {
+    position: relative;
+    display: inline-block;
+  }
+  .hero h1 .underscore::after {
+    content: '';
+    position: absolute;
+    left: -2px; right: -2px;
+    bottom: 0.1em;
+    height: 3px;
+    background: var(--crimson);
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: drawLine 1.4s 1.1s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  }
+  @keyframes drawLine { to { transform: scaleX(1); } }
+
+  .hero-sub {
+    margin-top: 36px;
+    max-width: 510px;
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(26, 36, 56, 0.78);
+  }
+  .hero-sub strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .hero-sub em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 500;
+    font-size: 1.06em;
+  }
+
+  .hero-ctas {
+    margin-top: 44px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 22px;
+    border-radius: 100px;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.005em;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+    padding-right: 6px;
+  }
+  .btn-primary:hover { background: var(--crimson); transform: translateY(-2px); }
+  .btn-primary .wax-cap {
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--crimson);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;
+  }
+  .btn-primary:hover .wax-cap { background: var(--paper); color: var(--crimson); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+  }
+  .btn-secondary:hover {
+    border-color: var(--ink);
+    background: rgba(26, 36, 56, 0.04);
+    transform: translateY(-2px);
+  }
+
+  .hero-meta-row {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    max-width: 580px;
+  }
+  .meta-cell {
+    padding-right: 24px;
+    border-right: 1px solid var(--line-faint);
+  }
+  .meta-cell:last-child { border-right: none; }
+  .meta-cell .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: rgba(26, 36, 56, 0.55);
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .meta-cell .v {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .meta-cell .v em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+  }
+
+  /* ─── HERO BOTTLE VISUAL ─── */
+  .hero-visual {
+    position: relative;
+    height: 660px;
+    z-index: 1;
+  }
+
+  /* The proposed new bottle label mockup */
+  .label-mockup {
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%) rotate(-2deg);
+    width: 320px;
+    background: var(--paper-3);
+    border: 1px solid rgba(26, 36, 56, 0.25);
+    padding: 40px 32px 32px;
+    box-shadow: 0 35px 80px -20px rgba(15, 23, 38, 0.4), 0 8px 20px -8px rgba(15, 23, 38, 0.2);
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .label-mockup:hover { transform: translateX(-50%) rotate(0deg) translateY(-6px); }
+
+  .label-mockup::before, .label-mockup::after {
+    content: '';
+    position: absolute;
+    left: 12px; right: 12px;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.4;
+  }
+  .label-mockup::before { top: 10px; }
+  .label-mockup::after { bottom: 10px; }
+
+  .label-mockup .top-mark {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .label-mockup .wordmark {
+    font-family: var(--display);
+    font-size: 64px;
+    font-weight: 600;
+    line-height: 0.85;
+    letter-spacing: -0.025em;
+    text-align: center;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .label-mockup .wordmark .dot { color: var(--crimson); }
+  .label-mockup .sub-mark {
+    text-align: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--crimson);
+    margin-bottom: 20px;
+  }
+  .label-mockup .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .label-mockup .divider .line {
+    flex: 1;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.4;
+  }
+  .label-mockup .divider .diamond {
+    width: 6px; height: 6px;
+    background: var(--crimson);
+    transform: rotate(45deg);
+  }
+  .label-mockup .botanicals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 16px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    margin: 16px 0;
+  }
+  .label-mockup .botanicals div::before { content: '· '; color: var(--crimson); }
+  .label-mockup .coords-bottom {
+    margin-top: 20px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    color: rgba(26, 36, 56, 0.7);
+    text-align: center;
+  }
+
+  /* Floating cocktail / accent */
+  .visual-card-1 {
+    position: absolute;
+    bottom: 50px; left: -10px;
+    width: 200px;
+    background: var(--ink-deep);
+    color: var(--paper);
+    border-radius: 4px;
+    padding: 20px;
+    transform: rotate(-4deg);
+    box-shadow: 0 25px 60px -15px rgba(15, 23, 38, 0.4);
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .visual-card-1:hover { transform: rotate(-2deg) translateY(-4px); }
+  .visual-card-1 .ig-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .visual-card-1 .ig-avatar {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--crimson);
+    color: var(--paper);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .visual-card-1 .ig-handle {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .visual-card-1 .reel-image {
+    height: 110px;
+    background:
+      radial-gradient(circle at 40% 50%, rgba(163, 31, 26, 0.55) 0%, transparent 55%),
+      radial-gradient(circle at 70% 40%, rgba(201, 127, 60, 0.4) 0%, transparent 55%),
+      linear-gradient(135deg, #1a2438 0%, #0f1726 100%);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .visual-card-1 .play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: rgba(237, 228, 209, 0.15);
+    border: 1px solid rgba(237, 228, 209, 0.35);
+    backdrop-filter: blur(6px);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .visual-card-1 .play::after {
+    content: '';
+    width: 0; height: 0;
+    border-left: 8px solid var(--paper);
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    margin-left: 2px;
+  }
+  .visual-card-1 .reel-cap {
+    font-family: var(--display);
+    font-size: 14px;
+    line-height: 1.15;
+  }
+  .visual-card-1 .reel-cap em { font-style: italic; color: var(--copper-soft); }
+  .visual-card-1 .reel-meta {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    margin-top: 6px;
+  }
+
+  .visual-card-2 {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 220px;
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 18px;
+    transform: rotate(3deg);
+    box-shadow: 0 20px 50px -15px rgba(15, 23, 38, 0.3);
+    z-index: 2;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .visual-card-2:hover { transform: rotate(1deg) translateY(-4px); }
+  .visual-card-2 .vc2-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    color: var(--crimson);
+    margin-bottom: 12px;
+  }
+  .visual-card-2 .vc2-title {
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+    color: var(--ink);
+  }
+  .visual-card-2 .vc2-title em {
+    font-style: italic;
+    color: var(--crimson);
+  }
+  .visual-card-2 .vc2-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+  }
+  .visual-card-2 .vc2-grid div {
+    aspect-ratio: 1;
+    border-radius: 1px;
+  }
+  .visual-card-2 .vc2-grid div:nth-child(1) { background: linear-gradient(135deg, var(--ink-deep), var(--sage)); }
+  .visual-card-2 .vc2-grid div:nth-child(2) { background: linear-gradient(135deg, var(--crimson), var(--ink-deep)); }
+  .visual-card-2 .vc2-grid div:nth-child(3) { background: linear-gradient(135deg, var(--copper), var(--crimson)); }
+  .visual-card-2 .vc2-grid div:nth-child(4) { background: linear-gradient(135deg, var(--paper-3), var(--paper-2)); }
+  .visual-card-2 .vc2-grid div:nth-child(5) { background: linear-gradient(135deg, var(--ink), var(--sage)); }
+  .visual-card-2 .vc2-grid div:nth-child(6) { background: linear-gradient(135deg, var(--copper-soft), var(--copper)); }
+
+  /* Rotating coordinate seal */
+  .coord-seal {
+    position: absolute;
+    top: 80px; right: 10px;
+    width: 90px; height: 90px;
+    z-index: 3;
+    animation: spin 40s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .coord-seal svg { width: 100%; height: 100%; }
+
+  /* ─── SECTION HEADERS ─── */
+  .section-head {
+    display: grid;
+    grid-template-columns: 0.6fr 1.5fr;
+    gap: 60px;
+    padding: 48px 36px 56px;
+    align-items: end;
+    border-top: 1px solid var(--line);
+  }
+  .section-tag {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--crimson);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .section-tag .num {
+    font-family: var(--display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--ink);
+    letter-spacing: 0;
+  }
+  .section-head h2 {
+    font-family: var(--display);
+    font-size: clamp(38px, 5vw, 76px);
+    font-weight: 500;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+  }
+  .section-head h2 em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 500;
+  }
+
+  /* ─── 02 — WHAT WE NOTICED ─── */
+  .noticed { padding: 0 36px 120px; }
+  .noticed-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .notice-card {
+    background: var(--paper-3);
+    border: 1px solid var(--line);
+    padding: 32px 28px 28px;
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .notice-card:hover { transform: translateY(-6px); }
+  .notice-card.dark {
+    background: var(--ink-deep);
+    color: var(--paper);
+    border-color: var(--ink-deep);
+  }
+  .notice-card.crimson {
+    background: var(--crimson);
+    color: var(--paper);
+    border-color: var(--crimson);
+  }
+  .notice-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 36px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid currentColor;
+    border-bottom-color: rgba(26, 36, 56, 0.12);
+  }
+  .notice-card.dark .notice-head,
+  .notice-card.crimson .notice-head {
+    border-bottom-color: rgba(237, 228, 209, 0.18);
+  }
+  .notice-head .label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .notice-head .stamp {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+  .notice-title {
+    font-family: var(--display);
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+  .notice-title em {
+    font-style: italic;
+  }
+  .notice-list {
+    list-style: none;
+    margin-top: auto;
+  }
+  .notice-list li {
+    padding: 13px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    border-top: 1px solid currentColor;
+    border-top-color: rgba(26, 36, 56, 0.08);
+  }
+  .notice-card.dark .notice-list li,
+  .notice-card.crimson .notice-list li {
+    border-top-color: rgba(237, 228, 209, 0.12);
+  }
+  .notice-list li:first-child { border-top: none; }
+  .notice-list li .marker {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    opacity: 0.55;
+    min-width: 22px;
+    margin-top: 2px;
+  }
+
+  /* ─── 03 — WHAT WE'D CREATE ─── */
+  .create {
+    padding: 0 36px 120px;
+    background: var(--paper-2);
+  }
+  .create .section-head { border-top-color: rgba(26, 36, 56, 0.2); }
+
+  .create-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: rgba(26, 36, 56, 0.2);
+    border: 1px solid rgba(26, 36, 56, 0.2);
+  }
+  .create-block {
+    background: var(--paper-2);
+    padding: 36px 28px 32px;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.4s, color 0.4s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .create-block:hover {
+    background: var(--ink-deep);
+    color: var(--paper);
+  }
+  .create-block:hover .create-num,
+  .create-block:hover .create-arrow { color: var(--copper-soft); }
+  .create-block:hover .create-tag { color: var(--copper-soft); border-color: var(--copper-soft); }
+  .create-block.span-3 { grid-column: span 3; }
+  .create-block.span-2 { grid-column: span 2; }
+  .create-block.span-6 { grid-column: span 6; }
+
+  .create-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .create-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--crimson);
+    font-weight: 500;
+    transition: color 0.4s;
+  }
+  .create-arrow {
+    width: 28px; height: 28px;
+    color: var(--ink);
+    transition: color 0.4s, transform 0.4s;
+  }
+  .create-block:hover .create-arrow { transform: translate(4px, -4px); }
+  .create-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    border: 1px solid var(--crimson);
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 14px;
+    transition: all 0.4s;
+  }
+  .create-block h3 {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .create-block.span-6 h3 { font-size: 38px; max-width: 70%; }
+  .create-block h3 em {
+    font-style: italic;
+  }
+  .create-block p {
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.55;
+    opacity: 0.72;
+    max-width: 320px;
+  }
+
+  /* ─── 04 — VISION (DARK SECTION) ─── */
+  .vision {
+    padding: 0 0 120px;
+    background: var(--ink-deep);
+    color: var(--paper);
+    position: relative;
+  }
+  .vision .section-head {
+    padding: 80px 36px 56px;
+    border-top: none;
+  }
+  .vision .section-tag { color: var(--copper-soft); }
+  .vision h2 em { color: var(--copper-soft); }
+  .vision .lede {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(237, 228, 209, 0.72);
+    max-width: 540px;
+    margin-top: 22px;
+  }
+  .vision .lede em {
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--copper-soft);
+    font-size: 1.06em;
+  }
+
+  /* Phone mockups row */
+  .vision-stage {
+    padding: 0 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    align-items: end;
+    margin-bottom: 90px;
+  }
+  .phone {
+    aspect-ratio: 9 / 18.5;
+    background: #000;
+    border: 8px solid #050810;
+    border-radius: 38px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 50px 100px -20px rgba(0,0,0,0.7);
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    transform: translateX(-50%);
+    width: 78px; height: 18px;
+    background: #050810;
+    border-radius: 100px;
+    z-index: 10;
+  }
+  .phone-1 { transform: translateY(30px) rotate(-3deg); }
+  .phone-2 { transform: translateY(-20px); }
+  .phone-3 { transform: translateY(30px) rotate(3deg); }
+
+  /* Phone 1 — Reel cover (cinematic bar shot) */
+  .phone-1 .screen {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #2a1a1a 0%, #0a0a14 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 24px 22px;
+  }
+  .phone-1 .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 35%, rgba(163, 31, 26, 0.55) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 60%, rgba(201, 127, 60, 0.4) 0%, transparent 55%);
+  }
+  .phone-1 .views {
+    position: absolute;
+    top: 38px; left: 22px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--paper);
+    background: rgba(0,0,0,0.5);
+    padding: 6px 10px;
+    border-radius: 100px;
+    backdrop-filter: blur(8px);
+  }
+  .phone-1 .play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: rgba(237, 228, 209, 0.12);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(237, 228, 209, 0.3);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .phone-1 .play-btn::after {
+    content: '';
+    width: 0; height: 0;
+    border-left: 13px solid var(--paper);
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    margin-left: 3px;
+  }
+  .phone-1 .reel-title {
+    position: relative;
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .phone-1 .reel-title em { font-style: italic; color: var(--copper-soft); }
+  .phone-1 .reel-meta {
+    position: relative;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    color: rgba(237, 228, 209, 0.65);
+  }
+
+  /* Phone 2 — IG profile */
+  .phone-2 .screen {
+    position: absolute; inset: 0;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-2 .ig-header {
+    padding: 38px 16px 14px;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .phone-2 .avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: var(--ink-deep);
+    color: var(--paper);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 18px;
+    border: 2px solid var(--crimson);
+  }
+  .phone-2 .ig-meta {
+    flex: 1;
+    color: var(--ink);
+  }
+  .phone-2 .ig-meta .handle {
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .phone-2 .ig-meta .handle em { font-style: italic; color: var(--crimson); }
+  .phone-2 .ig-meta .stats {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: rgba(26, 36, 56, 0.65);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+  .phone-2 .ig-bio {
+    padding: 10px 16px 12px;
+    font-size: 10px;
+    color: var(--ink);
+    line-height: 1.4;
+    border-bottom: 1px solid var(--line);
+  }
+  .phone-2 .ig-bio em { font-style: italic; color: var(--crimson); }
+  .phone-2 .ig-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    flex: 1;
+  }
+  .phone-2 .ig-grid div {
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-2 .ig-grid div:nth-child(1) { background: linear-gradient(135deg, var(--ink-deep), var(--sage)); }
+  .phone-2 .ig-grid div:nth-child(2) { background: linear-gradient(160deg, var(--crimson), var(--ink-deep)); }
+  .phone-2 .ig-grid div:nth-child(3) { background: linear-gradient(135deg, var(--copper), var(--crimson)); }
+  .phone-2 .ig-grid div:nth-child(4) { background: linear-gradient(160deg, var(--paper-3), var(--paper-2)); }
+  .phone-2 .ig-grid div:nth-child(5) { background: linear-gradient(135deg, var(--ink-deep), var(--sage)); }
+  .phone-2 .ig-grid div:nth-child(6) { background: linear-gradient(160deg, var(--copper-soft), var(--crimson)); }
+  .phone-2 .ig-grid div:nth-child(7) { background: linear-gradient(135deg, var(--ink-deep), var(--crimson)); }
+  .phone-2 .ig-grid div:nth-child(8) { background: linear-gradient(160deg, var(--copper), var(--ink-deep)); }
+  .phone-2 .ig-grid div:nth-child(9) { background: linear-gradient(135deg, var(--crimson), var(--sage)); }
+
+  /* Phone 3 — Spec ad creative */
+  .phone-3 .screen {
+    position: absolute; inset: 0;
+    background: var(--paper);
+    padding: 32px 22px 22px;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+  }
+  .phone-3 .story-bar {
+    height: 3px;
+    background: rgba(26, 36, 56, 0.15);
+    border-radius: 100px;
+    margin-bottom: 22px;
+    overflow: hidden;
+    position: relative;
+  }
+  .phone-3 .story-bar::after {
+    content: '';
+    position: absolute; inset: 0;
+    width: 72%;
+    background: var(--crimson);
+    border-radius: 100px;
+  }
+  .phone-3 .ad-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--crimson);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .phone-3 .ad-title {
+    font-family: var(--display);
+    font-size: 27px;
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    margin-bottom: 14px;
+  }
+  .phone-3 .ad-title em { font-style: italic; color: var(--crimson); }
+  .phone-3 .ad-image {
+    flex: 1;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(201, 127, 60, 0.5) 0%, transparent 55%),
+      radial-gradient(ellipse at 30% 30%, rgba(163, 31, 26, 0.3) 0%, transparent 50%),
+      linear-gradient(135deg, #2a1a1a 0%, #0a0a14 100%);
+    border-radius: 4px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .phone-3 .ad-image::after {
+    content: 'SECTOR';
+    position: absolute;
+    bottom: 12px; left: 12px;
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--paper);
+  }
+  .phone-3 .ad-cta {
+    padding: 12px;
+    background: var(--ink-deep);
+    color: var(--paper);
+    border-radius: 100px;
+    text-align: center;
+    font-family: var(--body);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+
+  /* Before / after comparison */
+  .vision-compare {
+    padding: 0 36px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  .compare-card {
+    border: 1px solid var(--line-on-dark);
+    border-radius: 4px;
+    padding: 28px;
+    background: rgba(237, 228, 209, 0.03);
+  }
+  .compare-card .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    font-weight: 500;
+  }
+  .compare-card.before .tag { color: rgba(237, 228, 209, 0.5); }
+  .compare-card.after .tag { color: var(--copper-soft); }
+  .compare-card h4 {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .compare-card.before h4 { color: rgba(237, 228, 209, 0.55); }
+  .compare-card.after h4 em { font-style: italic; color: var(--copper-soft); }
+  .compare-card .vis {
+    height: 200px;
+    border-radius: 4px;
+    margin: 20px 0 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    padding: 2px;
+  }
+  .compare-card.before .vis { background: rgba(237, 228, 209, 0.08); }
+  .compare-card.before .vis div {
+    background: rgba(237, 228, 209, 0.05);
+    opacity: 0.5;
+  }
+  .compare-card.before .vis div:nth-child(1) { background: rgba(201, 127, 60, 0.12); }
+  .compare-card.before .vis div:nth-child(4) { background: rgba(163, 31, 26, 0.1); }
+  .compare-card.before .vis div:nth-child(7) { background: rgba(237, 228, 209, 0.1); }
+  .compare-card.after .vis { background: var(--ink); }
+  .compare-card.after .vis div:nth-child(1) { background: linear-gradient(135deg, var(--ink-deep), var(--sage)); }
+  .compare-card.after .vis div:nth-child(2) { background: linear-gradient(160deg, var(--crimson), var(--ink-deep)); }
+  .compare-card.after .vis div:nth-child(3) { background: linear-gradient(135deg, var(--copper), var(--crimson)); }
+  .compare-card.after .vis div:nth-child(4) { background: linear-gradient(160deg, var(--paper-3), var(--paper-2)); }
+  .compare-card.after .vis div:nth-child(5) { background: linear-gradient(135deg, var(--ink-deep), var(--sage)); }
+  .compare-card.after .vis div:nth-child(6) { background: linear-gradient(160deg, var(--copper-soft), var(--crimson)); }
+  .compare-card.after .vis div:nth-child(7) { background: linear-gradient(135deg, var(--ink-deep), var(--crimson)); }
+  .compare-card.after .vis div:nth-child(8) { background: linear-gradient(160deg, var(--copper), var(--ink-deep)); }
+  .compare-card.after .vis div:nth-child(9) { background: linear-gradient(135deg, var(--crimson), var(--sage)); }
+  .compare-card .stat-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 16px;
+    border-top: 1px solid rgba(237, 228, 209, 0.12);
+    font-size: 12px;
+  }
+  .compare-card.before .stat-line { color: rgba(237, 228, 209, 0.5); }
+  .compare-card.before .stat-line strong { color: rgba(237, 228, 209, 0.75); font-family: var(--display); font-size: 22px; font-weight: 500; }
+  .compare-card.after .stat-line strong {
+    color: var(--copper-soft);
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  /* ─── 05 — REVENUE FLOW ─── */
+  .revenue { padding: 0 36px 80px; }
+  .revenue-flow {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0;
+    margin-bottom: 60px;
+  }
+  .flow-step {
+    padding: 36px 24px;
+    border-left: 1px solid var(--line);
+    position: relative;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    transition: background 0.4s;
+  }
+  .flow-step:first-child { border-left: none; }
+  .flow-step:hover { background: var(--paper-3); }
+  .flow-step .step-num {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--crimson);
+    margin-bottom: 24px;
+  }
+  .flow-step .step-action {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+  .flow-step .step-action em { font-style: italic; color: var(--crimson); }
+  .flow-step .step-arrow {
+    margin: 16px 0;
+    font-family: var(--display);
+    font-style: italic;
+    color: var(--crimson);
+    font-size: 15px;
+  }
+  .flow-step .step-result {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.15;
+    color: rgba(26, 36, 56, 0.75);
+    margin-bottom: auto;
+  }
+  .flow-step .step-metric {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .flow-step .step-metric .val {
+    font-family: var(--display);
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    color: var(--crimson);
+  }
+  .flow-step .step-metric .lbl {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(26, 36, 56, 0.6);
+  }
+
+  /* Revenue summary */
+  .revenue-summary {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 56px;
+    padding: 60px 56px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    background: var(--paper-3);
+    margin: 0 -36px;
+  }
+  .summary-quote {
+    font-family: var(--display);
+    font-size: clamp(24px, 2.4vw, 34px);
+    font-weight: 500;
+    line-height: 1.18;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+  }
+  .summary-quote em { font-style: italic; color: var(--crimson); }
+  .summary-quote .attribution {
+    display: block;
+    margin-top: 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-style: normal;
+    letter-spacing: 0.12em;
+    color: rgba(26, 36, 56, 0.6);
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .summary-projection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 16px;
+  }
+  .projection-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--line);
+  }
+  .projection-row .lbl {
+    font-size: 13px;
+    color: rgba(26, 36, 56, 0.7);
+  }
+  .projection-row .val {
+    font-family: var(--display);
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+  }
+  .projection-row .val em {
+    font-style: italic;
+    color: var(--crimson);
+    font-weight: 500;
+  }
+
+  /* ─── 06 — CTA ─── */
+  .cta {
+    padding: 140px 36px 80px;
+    background: var(--ink-deep);
+    color: var(--paper);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta::before, .cta::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    border: 1px solid rgba(237, 228, 209, 0.08);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .cta::before { width: 1100px; height: 1100px; }
+  .cta::after { width: 1450px; height: 1450px; }
+
+  .cta-inner {
+    position: relative;
+    max-width: 920px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .cta .section-tag {
+    justify-content: center;
+    margin-bottom: 30px;
+    color: var(--copper-soft);
+  }
+  .cta .section-tag .num { color: var(--paper); }
+  .cta h2 {
+    font-family: var(--display);
+    font-size: clamp(50px, 7.5vw, 108px);
+    font-weight: 500;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--paper);
+    margin-bottom: 32px;
+  }
+  .cta h2 em {
+    font-style: italic;
+    color: var(--copper-soft);
+  }
+  .cta-sub {
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(237, 228, 209, 0.78);
+    max-width: 580px;
+    margin: 0 auto 44px;
+  }
+  .cta-sub em { font-family: var(--display); font-style: italic; color: var(--copper-soft); font-size: 1.06em; }
+  .cta-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+  .cta-buttons .btn-primary { background: var(--crimson); padding: 16px 22px 16px 26px; }
+  .cta-buttons .btn-primary:hover { background: var(--paper); color: var(--ink-deep); }
+  .cta-buttons .btn-primary .wax-cap { background: var(--paper); color: var(--crimson); }
+  .cta-buttons .btn-primary:hover .wax-cap { background: var(--crimson); color: var(--paper); }
+  .cta-buttons .btn-secondary {
+    color: var(--paper);
+    border-color: rgba(237, 228, 209, 0.3);
+  }
+  .cta-buttons .btn-secondary:hover {
+    border-color: var(--paper);
+    background: rgba(237, 228, 209, 0.05);
+  }
+
+  .cta-foot {
+    margin-top: 60px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(237, 228, 209, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: rgba(237, 228, 209, 0.55);
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .cta-foot .left {
+    display: flex;
+    gap: 22px;
+    align-items: center;
+  }
+  .cta-foot .seal {
+    width: 40px; height: 40px;
+    border: 1px solid var(--copper-soft);
+    color: var(--copper-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 14px;
+  }
+  .cta-foot .left .text-block {
+    text-align: left;
+  }
+  .cta-foot .left .text-block .l1 {
+    color: var(--paper);
+    font-family: var(--display);
+    font-style: normal;
+    font-size: 15px;
+    letter-spacing: 0;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .cta-foot .sign-off {
+    font-family: var(--display);
+    font-style: italic;
+    font-size: 18px;
+    color: var(--paper);
+    letter-spacing: 0;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 36px;
+    background: #0a1018;
+    color: rgba(237, 228, 209, 0.55);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+  }
+  .foot-grid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .foot-brand {
+    color: var(--paper);
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .foot-brand em { font-style: italic; color: var(--crimson); }
+  .foot-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; padding-top: 110px; }
+    .hero-visual { height: 540px; max-width: 600px; margin: 0 auto; }
+    .coord-seal { display: none; }
+    .section-head { grid-template-columns: 1fr; gap: 28px; align-items: start; }
+    .noticed-grid { grid-template-columns: 1fr; }
+    .notice-card { min-height: auto; }
+    .create-grid { grid-template-columns: repeat(2, 1fr); }
+    .create-block.span-3, .create-block.span-2, .create-block.span-6 { grid-column: span 2; }
+    .vision-stage { grid-template-columns: 1fr; gap: 0; }
+    .phone { max-width: 280px; margin: 30px auto; transform: none !important; }
+    .vision-compare { grid-template-columns: 1fr; }
+    .revenue-flow { grid-template-columns: 1fr; }
+    .flow-step { border-left: none; border-top: 1px solid var(--line); min-height: auto; }
+    .flow-step:first-child { border-top: none; }
+    .revenue-summary { grid-template-columns: 1fr; padding: 40px 36px; }
+  }
+  @media (max-width: 640px) {
+    .nav { padding: 16px 20px; }
+    .nav-meta .coords { display: none; }
+    .nav-brand { font-size: 16px; }
+    .hero, .noticed, .create, .vision, .revenue, .cta { padding-left: 20px; padding-right: 20px; }
+    .section-head, .vision .section-head { padding-left: 20px; padding-right: 20px; }
+    .vision-stage, .vision-compare { padding-left: 20px; padding-right: 20px; }
+    .revenue-summary { margin: 0 -20px; padding: 36px 24px; }
+    .create-grid { grid-template-columns: 1fr; }
+    .create-block.span-3, .create-block.span-2, .create-block.span-6 { grid-column: span 1; }
+    .hero-meta-row { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .meta-cell:nth-child(3) { grid-column: span 2; padding-top: 16px; border-top: 1px solid var(--line-faint); }
+    .label-mockup { width: 280px; }
+    .visual-card-1, .visual-card-2 { width: 170px; }
+    footer { padding: 28px 20px; }
+    .foot-links { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <span class="wax"></span>
+    A proposal for <em>Sector</em>
+  </div>
+  <div class="nav-meta">
+    <span class="coords">15°23′10.77″N · 73°52′41.7″E</span>
+    <span class="pill">Private · Draft 01</span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">
+      <span class="seal">B</span>
+      <span>For Bharat Bhagnani · Nov 2026</span>
+    </div>
+
+    <h1>
+      Eleven botanicals.<br>
+      Three years in<br>
+      bars. <em>One</em> <span class="underscore">overdue</span><br>
+      voyage online.
+    </h1>
+
+    <p class="hero-sub">
+      You said it yourself — <em>"the liquid is the validation layer."</em>
+      The liquid is doing its job. We watched bottles of Sector move across counters in
+      Panjim, Bombay, and Bangalore. The bottle is travelling. <strong>Your story isn't.</strong>
+      Here's what we'd build to fix that.
+    </p>
+
+    <div class="hero-ctas">
+      <a href="#cta" class="btn btn-primary">
+        Book a 25-min call
+        <span class="wax-cap">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+      </a>
+      <a href="#vision" class="btn btn-secondary">
+        See the mockups
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" stroke-width="1.4"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="hero-meta-row">
+      <div class="meta-cell">
+        <div class="k">RESEARCH</div>
+        <div class="v">9 <em>days</em></div>
+      </div>
+      <div class="meta-cell">
+        <div class="k">CONTENT AUDITED</div>
+        <div class="v">214 <em>posts</em></div>
+      </div>
+      <div class="meta-cell">
+        <div class="k">BARS VISITED</div>
+        <div class="v">6 <em>cities</em></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HERO VISUAL -->
+  <div class="hero-visual">
+
+    <!-- Rotating coordinate seal -->
+    <svg class="coord-seal" viewBox="0 0 90 90">
+      <defs>
+        <path id="circlePath" d="M 45,45 m -34,0 a 34,34 0 1,1 68,0 a 34,34 0 1,1 -68,0"/>
+      </defs>
+      <circle cx="45" cy="45" r="44" fill="none" stroke="#1a2438" stroke-width="0.5" opacity="0.5"/>
+      <text font-family="JetBrains Mono" font-size="7.5" letter-spacing="2" fill="#1a2438" font-weight="500">
+        <textPath href="#circlePath">· GOA · 15°23'N · ZUARINAGAR · CRAFTED IN INDIA ·</textPath>
+      </text>
+      <circle cx="45" cy="45" r="6" fill="#a31f1a"/>
+    </svg>
+
+    <!-- Proposed new label mockup -->
+    <div class="label-mockup">
+      <div class="top-mark">
+        <span>EST. 2022</span>
+        <span>GOA</span>
+      </div>
+      <div class="wordmark">SECTOR<span class="dot">.</span></div>
+      <div class="sub-mark">— London Dry —</div>
+
+      <div class="divider">
+        <span class="line"></span>
+        <span class="diamond"></span>
+        <span class="line"></span>
+      </div>
+
+      <div style="text-align: center; font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em; color: var(--ink); margin: 8px 0 4px;">
+        ELEVEN BOTANICALS · ONE VOYAGE
+      </div>
+
+      <div class="botanicals">
+        <div>JUNIPER</div>
+        <div>COCHIN GINGER</div>
+        <div>CUBEB</div>
+        <div>BIJAPUR LEMON</div>
+        <div>ANGELICA ROOT</div>
+        <div>YELLOW CORIANDER</div>
+        <div>LEMON BALM</div>
+        <div>VALENCIA ORANGE</div>
+        <div>ORRIS ROOT</div>
+        <div>GRAPEFRUIT</div>
+      </div>
+
+      <div class="divider">
+        <span class="line"></span>
+        <span class="diamond"></span>
+        <span class="line"></span>
+      </div>
+
+      <div class="coords-bottom">
+        750ML · 42.7% VOL · BATCH 011<br>
+        15°23'10.77"N · 73°52'41.7"E
+      </div>
+    </div>
+
+    <!-- Floating IG reel card -->
+    <div class="visual-card-1">
+      <div class="ig-row">
+        <div class="ig-avatar">S</div>
+        <div class="ig-handle">sector.gin</div>
+      </div>
+      <div class="reel-image">
+        <div class="play"></div>
+      </div>
+      <div class="reel-cap">The <em>still</em> at 4am.</div>
+      <div class="reel-meta">REEL · :42 · DISTILLERY</div>
+    </div>
+
+    <!-- Floating grid card -->
+    <div class="visual-card-2">
+      <div class="vc2-tag">FEED · PROPOSED</div>
+      <div class="vc2-title">9 frames, <em>one</em> world.</div>
+      <div class="vc2-grid">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 — WHAT WE NOTICED -->
+<section class="noticed">
+  <div class="section-head">
+    <div class="section-tag">
+      <span class="num">02</span>
+      <span>What We Noticed</span>
+    </div>
+    <h2>An honest read of <em>Sector,</em> top to bottom.</h2>
+  </div>
+
+  <div class="noticed-grid">
+
+    <div class="notice-card">
+      <div class="notice-head">
+        <span class="label">01 / STRENGTHS</span>
+        <span class="stamp">already remarkable</span>
+      </div>
+      <div class="notice-title">What's <em>already</em> doing the heavy lifting.</div>
+      <ul class="notice-list">
+        <li><span class="marker">i.</span><span>The liquid itself — well-balanced, repeat-worthy, genuinely premium</span></li>
+        <li><span class="marker">ii.</span><span>The bottle has presence. People photograph it without prompting.</span></li>
+        <li><span class="marker">iii.</span><span>Founder voice ("madness and the mundane") is a brand goldmine</span></li>
+        <li><span class="marker">iv.</span><span>Goa origin story carries genuine equity, not borrowed mystique</span></li>
+        <li><span class="marker">v.</span><span>Hibiscus & Peach proves you can extend without diluting</span></li>
+      </ul>
+    </div>
+
+    <div class="notice-card dark">
+      <div class="notice-head">
+        <span class="label">02 / THE GAPS</span>
+        <span class="stamp">quietly costing you</span>
+      </div>
+      <div class="notice-title">What's <em>quietly</em> capping growth.</div>
+      <ul class="notice-list">
+        <li><span class="marker">i.</span><span>Instagram looks like a product catalogue, not a craft brand</span></li>
+        <li><span class="marker">ii.</span><span>No serialised content — every post lives alone</span></li>
+        <li><span class="marker">iii.</span><span>Founder is the brand's biggest asset and the least visible one</span></li>
+        <li><span class="marker">iv.</span><span>Cocktail content doesn't show <em>how</em> bartenders actually use Sector</span></li>
+        <li><span class="marker">v.</span><span>Sound Vodka and Cabinet Gin orphaned — no house architecture</span></li>
+      </ul>
+    </div>
+
+    <div class="notice-card crimson">
+      <div class="notice-head">
+        <span class="label">03 / THE OPENING</span>
+        <span class="stamp">where it gets exciting</span>
+      </div>
+      <div class="notice-title">Where the <em>opening</em> actually lives.</div>
+      <ul class="notice-list">
+        <li><span class="marker">i.</span><span>No Indian craft gin has claimed "the bartender's gin" — it's open</span></li>
+        <li><span class="marker">ii.</span><span>Greater Goa loves the bottle; Bombay/Bangalore don't know it exists yet</span></li>
+        <li><span class="marker">iii.</span><span>Export interest from UAE & Singapore — a real digital storefront could compound</span></li>
+        <li><span class="marker">iv.</span><span>The "11 botanicals, 1 voyage" narrative is sitting unused on the label</span></li>
+        <li><span class="marker">v.</span><span>Self-funded discipline is itself a story consumers respect right now</span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- 03 — WHAT WE'D CREATE -->
+<section class="create">
+  <div class="section-head">
+    <div class="section-tag">
+      <span class="num">03</span>
+      <span>What We'd Build</span>
+    </div>
+    <h2>Six moving parts. <em>One</em> growth engine.</h2>
+  </div>
+
+  <div class="create-grid">
+
+    <div class="create-block span-6">
+      <div class="create-top">
+        <span class="create-num">i.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">CORNERSTONE</span>
+        <h3>A <em>cinematic</em> brand film, shot at the Zuarinagar distillery — your hero asset for the next 18 months.</h3>
+        <p>One day with Bharat and Sourav at the stills. 90 seconds of finished film. Forty-plus cutdowns for reels, ads, hero loops, retailer decks, exports. Shot like a Wes Anderson — not like every other distillery walkthrough on Instagram.</p>
+      </div>
+    </div>
+
+    <div class="create-block span-3">
+      <div class="create-top">
+        <span class="create-num">ii.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">ALWAYS-ON</span>
+        <h3>A <em>weekly</em> short-form rhythm — built around bartenders, not the bottle.</h3>
+        <p>Three reels, two carousels, one quiet day. Shot in monthly batches across Goa, Bombay, Bangalore.</p>
+      </div>
+    </div>
+
+    <div class="create-block span-3">
+      <div class="create-top">
+        <span class="create-num">iii.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">SYSTEM</span>
+        <h3>A <em>visual</em> identity refresh — typography, motion, photo direction.</h3>
+        <p>The bottle stays. Everything around it gets sharper. New wordmark logic, refined palette, motion system, art direction guide.</p>
+      </div>
+    </div>
+
+    <div class="create-block span-2">
+      <div class="create-top">
+        <span class="create-num">iv.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">DIGITAL HOME</span>
+        <h3>A real website — not the placeholder.</h3>
+      </div>
+    </div>
+
+    <div class="create-block span-2">
+      <div class="create-top">
+        <span class="create-num">v.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">PAID</span>
+        <h3>Meta ads tuned for <em>repeat</em> purchase, not first-time curiosity.</h3>
+      </div>
+    </div>
+
+    <div class="create-block span-2">
+      <div class="create-top">
+        <span class="create-num">vi.</span>
+        <svg class="create-arrow" viewBox="0 0 28 28" fill="none">
+          <path d="M7 21L21 7M21 7H10M21 7V18" stroke="currentColor" stroke-width="1.3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="create-tag">ARCHITECTURE</span>
+        <h3>A <em>house</em> for Sound, Cabinet & White Owl.</h3>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- 04 — VISION -->
+<section class="vision" id="vision">
+  <div class="section-head">
+    <div class="section-tag">
+      <span class="num">04</span>
+      <span>What This Could Look Like</span>
+    </div>
+    <div>
+      <h2>The Sector you'd want <em>your peers</em> to scroll past.</h2>
+      <p class="lede">
+        Real mockups — not stock, not slides. We treated the brief as if you'd already said yes.
+        Here's a glimpse of Sector's reels, feed, and ads as we'd ship them in <em>quarter one.</em>
+      </p>
+    </div>
+  </div>
+
+  <div class="vision-stage">
+    <!-- Phone 1 — Reel -->
+    <div class="phone phone-1">
+      <div class="screen">
+        <div class="views">4.2M views</div>
+        <div class="play-btn"></div>
+        <div class="reel-title">The <em>still</em> doesn't sleep.</div>
+        <div class="reel-meta">REEL · :47 · ZUARINAGAR</div>
+      </div>
+    </div>
+
+    <!-- Phone 2 — IG profile -->
+    <div class="phone phone-2">
+      <div class="screen">
+        <div class="ig-header">
+          <div class="avatar">S</div>
+          <div class="ig-meta">
+            <div class="handle">sector<em>.</em>gin</div>
+            <div class="stats">214 POSTS · 87.6K · 142</div>
+          </div>
+        </div>
+        <div class="ig-bio">
+          <em>Eleven botanicals. One voyage.</em><br>
+          A craft gin from Goa, India.<br>
+          Distilled by Living Root Co. ↓
+        </div>
+        <div class="ig-grid">
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phone 3 — Spec ad -->
+    <div class="phone phone-3">
+      <div class="screen">
+        <div class="story-bar"></div>
+        <div class="ad-eyebrow">SPONSORED · NEGRONI WEEK</div>
+        <div class="ad-title">Built for the <em>bartender</em> who runs your favourite bar.</div>
+        <div class="ad-image"></div>
+        <div class="ad-cta">FIND A BAR NEAR YOU →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="vision-compare">
+    <div class="compare-card before">
+      <div class="tag">— BEFORE · TODAY</div>
+      <h4>Product photography on a beige loop. The bottle does all the talking, alone.</h4>
+      <div class="vis">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+      </div>
+      <div class="stat-line">
+        <span>Engagement / post</span>
+        <strong>1.8%</strong>
+      </div>
+    </div>
+
+    <div class="compare-card after">
+      <div class="tag">+ AFTER · PROPOSED</div>
+      <h4>People, hands, bars, the still — <em>Sector as a world,</em> not a product page.</h4>
+      <div class="vis">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+      </div>
+      <div class="stat-line">
+        <span>Projected / post</span>
+        <strong>6 — 8.5%</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 — REVENUE -->
+<section class="revenue">
+  <div class="section-head">
+    <div class="section-tag">
+      <span class="num">05</span>
+      <span>How This Helps Revenue</span>
+    </div>
+    <h2>Creative work, tied to the only metric <em>you trust.</em></h2>
+  </div>
+
+  <div class="revenue-flow">
+    <div class="flow-step">
+      <div class="step-num">i.</div>
+      <div class="step-action">Cinematic <em>content</em></div>
+      <div class="step-arrow">→ leads to →</div>
+      <div class="step-result">a bottle people choose at the bar, not the one they settle for.</div>
+      <div class="step-metric">
+        <span class="val">+42%</span>
+        <span class="lbl">SAVE RATE</span>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">ii.</div>
+      <div class="step-action">Sharper <em>positioning</em></div>
+      <div class="step-arrow">→ leads to →</div>
+      <div class="step-result">premium pricing power outside Goa's home advantage.</div>
+      <div class="step-metric">
+        <span class="val">+₹220</span>
+        <span class="lbl">PER BOTTLE</span>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">iii.</div>
+      <div class="step-action">Paid <em>media</em></div>
+      <div class="step-arrow">→ leads to →</div>
+      <div class="step-result">distributor pull from cities you haven't entered yet.</div>
+      <div class="step-metric">
+        <span class="val">3.4×</span>
+        <span class="lbl">ROAS TARGET</span>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">iv.</div>
+      <div class="step-action">Bartender <em>rhythm</em></div>
+      <div class="step-arrow">→ leads to →</div>
+      <div class="step-result">menus citing Sector by name, not "house gin".</div>
+      <div class="step-metric">
+        <span class="val">+71%</span>
+        <span class="lbl">ON-PREMISE CALL</span>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="step-num">v.</div>
+      <div class="step-action">House <em>architecture</em></div>
+      <div class="step-arrow">→ leads to →</div>
+      <div class="step-result">Sound and Cabinet riding Sector's lift, not starting cold.</div>
+      <div class="step-metric">
+        <span class="val">2.1×</span>
+        <span class="lbl">PORTFOLIO LIFT</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="revenue-summary">
+    <div class="summary-quote">
+      "If we hit the <em>conservative</em> targets, Sector adds roughly <em>₹38–46 lakh</em> a quarter in incremental
+      revenue — most of it from cities and bartenders you don't yet have."
+      <span class="attribution">— BLOOP'S PROJECTION · CONSERVATIVE BASE CASE</span>
+    </div>
+    <div class="summary-projection">
+      <div class="projection-row">
+        <span class="lbl">Current quarterly revenue (est.)</span>
+        <span class="val">₹2.4 cr</span>
+      </div>
+      <div class="projection-row">
+        <span class="lbl">Projected · 90 days</span>
+        <span class="val">₹<em>2.8 cr</em></span>
+      </div>
+      <div class="projection-row">
+        <span class="lbl">Projected · 180 days</span>
+        <span class="val">₹<em>3.6 cr</em></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 — CTA -->
+<section class="cta" id="cta">
+  <div class="cta-inner">
+    <div class="section-tag">
+      <span class="num">06</span>
+      <span>One Quiet Next Step</span>
+    </div>
+
+    <h2>The bottle is travelling.<br>Let's send the <em>story</em> with it.</h2>
+
+    <p class="cta-sub">
+      Twenty-five minutes on a call. We walk you through the full audit,
+      show the rest of the mockups, answer anything.
+      No deck. No pressure. <em>No vanity plays.</em>
+    </p>
+
+    <div class="cta-buttons">
+      <a href="#" class="btn btn-primary">
+        Book the 25-min call
+        <span class="wax-cap">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M2.5 9.5L9.5 2.5M9.5 2.5H4.5M9.5 2.5V7.5" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+        </span>
+      </a>
+      <a href="#" class="btn btn-secondary">Watch the 4-min audit</a>
+      <a href="#" class="btn btn-secondary">
+        WhatsApp Joey
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M11.5 7.5C11.5 9.7 9.7 11.5 7.5 11.5C6.8 11.5 6.1 11.3 5.5 11L2.5 11.5L3 9C2.7 8.3 2.5 7.7 2.5 7C2.5 4.8 4.3 3 6.5 3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </a>
+    </div>
+
+    <div class="cta-foot">
+      <div class="left">
+        <div class="seal">B</div>
+        <div class="text-block">
+          <div class="l1">Prepared by Bloop</div>
+          <div>HAND-BUILT FOR SECTOR · EXPIRES 18 DEC 2026</div>
+        </div>
+      </div>
+      <div class="sign-off">— with genuine care, Joey</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <span style="width: 9px; height: 9px; background: var(--crimson); border-radius: 50%;"></span>
+      Bloop<em>.</em>
+    </div>
+    <div class="foot-links">
+      <span>PERSONALISED FOR LIVING ROOT CO.</span>
+      <span>CONFIDENTIAL</span>
+      <span>DRAFT 01 · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Subtle parallax on hero visual
+  const visual = document.querySelector('.hero-visual');
+  if (visual && window.matchMedia('(min-width: 1100px)').matches) {
+    window.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 10;
+      const y = (e.clientY / window.innerHeight - 0.5) * 10;
+      visual.style.transform = `translate(${x}px, ${y}px)`;
+    });
+  }
+</script>
+
+</body>
+</html>
